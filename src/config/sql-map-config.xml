@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings useStatementNamespaces="true" />
+
+
+	
+	<sqlMap resource="sqlmap/User.xml" />
+	
+	<!-- 
+	<sqlMap resource="sqlmap/Board.xml" />
+	<sqlMap resource="sqlmap/Goods.xml" />
+	<sqlMap resource="sqlmap/Attachfile.xml" />
+	<sqlMap resource="sqlmap/ZipCode.xml" />
+	<sqlMap resource="sqlmap/Subway.xml" />
+	<sqlMap resource="sqlmap/Sell.xml" />
+	<sqlMap resource="sqlmap/Buy.xml" />
+	<sqlMap resource="sqlmap/Company.xml" />
+	<sqlMap resource="sqlmap/Attachfile.xml" />
+	<sqlMap resource="sqlmap/EtcCode.xml" />
+	<sqlMap resource="sqlmap/TransactionProgress.xml"/>
+-->
+</sqlMapConfig>

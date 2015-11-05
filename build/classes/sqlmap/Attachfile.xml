@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ajou.secure.attachFile">
+
+	<typeAlias alias ="RequestParameter" type="com.ajou.secure.common.RequestParameter"/>		
+	<typeAlias alias="attachFile" type="com.ajou.secure.attachfile.AttachFile"/>
+	
+	<resultMap class="attachfile" id="attachfileResult">
+		<result property="attachSeq" column="ATTACH_SEQ"/>
+		<result property="attachSellSeq" column="ATTACH_SELL_SEQ"/>
+		<result property="attachFileName" column="ATTACH_FILE_NAME"/>
+		<result property="attachTempName" column="ATTACH_TEMP_NAME"/>
+		<result property="attachContentType" column="ATTACH_CONTENT_TYPE"/>
+		<result property="attachFileUrl" column="ATTACH_FILE_URL"/>
+		<result property="attachRegDate" column="ATTACH_REG_DATE"/>
+	</resultMap>
+	
+	<insert id="uploadFile" parameterClass="attachfile">
+<!-- 	<selectKey keyProperty="attachSeq" resultClass="int">
+			SELECT IFNULL(MAX(ATTACH_SEQ)+1, 1) AS CNT FROM TBL_008_ATTACHFILE	
+		</selectKey>	
+		-->
+		INSERT INTO TBL_ATTACH_FILE(
+			ATTACH_SELL_SEQ,
+			ATTACH_FILE_NAME,
+			ATTACH_TEMP_NAME,
+			ATTACH_CONTENT_TYPE,
+			ATTACH_FILE_URL,
+			ATTACH_REG_DATE
+		)VALUES(
+			#attachSellSeq#,
+			#attachFileName#,
+			#attachTempName#,
+			#attachContentType#,
+			#attachFileUrl#, 
+			NOW()
+		)
+	</insert>	
+	
+	<select id="getListBySellSeq" parameterClass="int" resultMap="attachfileResult">
+		SELECT 
+			ATTACH_SEQ,
+			ATTACH_SELL_SEQ,
+			ATTACH_FILE_NAME,
+			ATTACH_TEMP_NAME,
+			ATTACH_CONTENT_TYPE,
+			ATTACH_FILE_URL,
+			ATTACH_REG_DATE
+		FROM TBL_ATTACH_FILE WHERE ATTACH_SELL_SEQ = #attachSeq#
+	</select>
+	
+	<select id="getObjectBySeq" parameterClass="RequestParameter" resultMap="attachfileResult">
+		SELECT *
+		FROM TBL_ATTACH_FILE WHERE ATTACH_SEQ = #attachSeq#
+	</select>
+	
+	<delete id="deleteBySeq" parameterClass="RequestParameter">
+		DELETE FROM TBL_008_ATTACHFILE WHERE ATTACH_SEQ=#attachSeq#
+	</delete>
+	
+	<select id="getObjectBySellSeq" parameterClass="int" resultMap="attachfileResult">
+		SELECT *
+		FROM TBL_008_ATTACHFILE WHERE ATTACH_SELL_SEQ = #sellCarSeq#
+		LIMIT 1
+	</select>
+	
+	<delete id="deleteBySellCarSeq" parameterClass="RequestParameter">
+		DELETE FROM TBL_008_ATTACHFILE WHERE ATTACH_SELL_SEQ=#sellCarSeq#
+	</delete>
+	
+<!--  	
+	<select id="selectAttachfileList" parameterClass="int" resultMap="attachfileResult">
+		SELECT 
+			ATTACH_SEQ,
+			ATTACH_RENT_SEQ,
+			ATTACH_FILE_NAME,
+			ATTACH_TEMP_NAME,
+			ATTACH_CONTENT_TYPE,
+			ATTACH_FILE_URL,
+			ATTACH_REG_DATE
+		FROM TBL_007_ATTACHFILE WHERE ATTACH_RENT_SEQ = #attachRentSeq#
+	</select>
+	
+	<select id="selectAttachfile" parameterClass="int" resultMap="attachfileResult">
+		SELECT 
+			ATTACH_SEQ,
+			ATTACH_RENT_SEQ,
+			ATTACH_FILE_NAME,
+			ATTACH_TEMP_NAME,
+			ATTACH_CONTENT_TYPE,
+			ATTACH_FILE_URL,
+			ATTACH_REG_DATE
+		FROM TBL_007_ATTACHFILE WHERE ATTACH_SEQ = #attachSeq#
+	</select>
+-->
+	
+	
+	
+	
+</sqlMap>
+
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ajou.secure.boardOption">
+
+	<typeAlias alias ="RequestParameter" type="com.ajou.secure.common.RequestParameter"/>		
+	<typeAlias alias="boardOption" type="com.ajou.secure.boardOption.BoardOption"/>
+	
+	<resultMap class="boardOption" id="boardOptionResult">
+		<result property="boardType" column="BOARD_TYPE"/>
+		<result property="boardCount" column="BOARD_COUNT"/>
+		
+	</resultMap>
+	
+	<!-- 10.26. 병욱 : 게시 종류별 갯수 update 쿼리 구문 추가 -->
+	<update id="update" parameterClass="RequestParameter">
+		
+		UPDATE `tbl_board_option`
+		SET `BOARD_COUNT`=`BOARD_COUNT`+ 1
+		WHERE `BOARD_TYPE`= #boardType#
+		LIMIT 1;
+	
+	</update>
+
+
+</sqlMap>
+

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ajou.ase.user">
+
+	<typeAlias alias ="RequestParameter" type="com.ajou.ase.common.RequestParameter"/>		
+	<typeAlias alias="user" type="com.ajou.ase.user.User"/>
+	
+	<resultMap class="user" id="userResult">
+		<result property="userNumSeq" column="USER_NUMSEQ"/>
+		<result property="userID" column="USER_ID"/>
+		<result property="userPassword" column="USER_PASSWORD"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="userPhoneNumber" column="USER_PHONENUMBER"/>
+		<result property="userPrivilege" column="USER_PRIVILEGE"/>
+		<result property="userServerAdmin" column="USER_SERVERADMIN"/>
+		<result property="userBirthDate" column="USER_BIRTHDATE"/>
+		<result property="userRegdate" column="USER_REGDATE"/>
+		<result property="userConfirmed" column="USER_CONFIRMED"/>
+		<result property="userConfirmedTime" column="USER_CONFIRMEDTIME"/>
+		<result property="userLastSSID" column="USER_LASTSSID"/>
+		
+	</resultMap>
+	
+	<!-- 10.26. 봉재 : userID가 중복성 검사를 위한 result map 생성 -->
+	<resultMap class="user" id="userIDResult">
+		<result property="userID" column="USER_ID"/>
+	</resultMap>
+	
+	<!-- 10.8. 봉재 : iBatis insert 쿼리 구문 추가(여기에 양력/음력 및 남자/여자 내용은 빠져 있음) -->
+	<insert id="InsertUserInformation" parameterClass="user">
+		INSERT INTO	TBL_USER_INFO
+			(USER_ID, 
+			USER_PASSWORD, 
+			USER_NAME, 
+			USER_PHONENUMBER, 
+			USER_BIRTHDATE, 
+			USER_PRIVILEGE,
+			USER_SERVERADMIN,
+			USER_CONFIRMED,
+			USER_CONFIRMEDTIME,
+			USER_REGDATE)	
+		VALUES
+			(#userID#, 
+			#userPassword#, 
+			#userName#, 
+			#userPhoneNumber#, 
+			#userBirthDate#,
+			#userPrivilege#,
+			#userServerAdmin#,
+			#userConfirmed#,
+			DATE_ADD(NOW(), INTERVAL 3 DAY),
+			NOW())	
+	</insert>
+	
+	<update id="updateSSID" parameterClass="user">
+		UPDATE TBL_USER_INFO
+		SET
+			USER_LASTSSID = #userLastSSID#
+			 
+		WHERE 
+			USER_ID = #userID#
+		
+	</update> 
+	
+	<update id="updateConfirmationInfo" parameterClass="user">
+		UPDATE TBL_USER_INFO
+		SET
+			USER_CONFIRMED = 1
+			 
+		WHERE 
+			USER_ID = #userID#
+		
+	</update>
+
+	<select id="selectListByUnconfirmed" parameterClass="RequestParameter" resultMap="userResult">
+		SELECT
+			*
+		FROM
+			TBL_USER_INFO
+		WHERE
+			USER_CONFIRMED = #userConfirmed# and USER_SERVERADMIN = #userServerAdmin#
+		
+	</select>
+
+
+	<select id="selectUserLogin" parameterClass="RequestParameter" resultMap="userResult">
+		SELECT
+			*
+		FROM
+			TBL_USER_INFO
+		WHERE
+			USER_ID = #userID# and USER_PASSWORD = #userPassword# and USER_CONFIRMED = 1
+		
+	</select>
+
+	<!--  10.9 병욱 : ID중복 체크 테이블 내에 아이디 있나 확인 -->
+	<select id="selectCheckUserIDByUserID" parameterClass="RequestParameter" resultMap="userIDResult">
+		SELECT
+			USER_ID
+		FROM
+			TBL_USER_INFO
+		WHERE
+			USER_ID = #userID#
+		
+	</select>
+
+	<!--  10.9 봉재 : ID를 바탕으로 사용자 정보를 호출하는 쿼리 -->
+	<select id="selectUserByUserID" parameterClass="RequestParameter" resultMap="userResult">
+		SELECT
+			*
+		FROM
+			TBL_USER_INFO
+		WHERE
+			USER_ID = #userID#
+		
+	</select>
+	
+	<!--  10.9 봉재 : 업데이트 쿼리 완료-->
+	<update id="updateUserInfo" parameterClass="user">
+		UPDATE TBL_USER_INFO
+		SET
+			USER_PASSWORD = #userPassword#,
+			USER_PHONENUMBER = #userPhoneNumber#, 
+			USER_SERVERADMIN = #userServerAdmin#
+			
+		WHERE 
+			USER_ID = #userID#
+		
+	</update>
+	
+
+	
+	<!--  10.9 병욱 : ID팢기 -->
+	<select id="selectFindUserIDByUserInfo" parameterClass="RequestParameter" resultMap="userResult">
+		SELECT
+			USER_ID
+		FROM
+			TBL_USER_INFO
+		WHERE
+			USER_NAME = #userName# and USER_PHONENUMBER = #userPhoneNumber# and USER_BIRTHDATE = #userBirthDate#
+		
+	</select>
+
+	<!--  10.27 병욱 : 회원삭제 -->
+	<delete id="deleteUser" parameterClass="user">
+		DELETE FROM `tbl_user_info`
+		WHERE `USER_ID` = #userID# and `USER_PASSWORD` = #userPassword#
+	</delete>
+
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.neopad.infobee_car.zip_code">
+
+	<typeAlias alias ="RequestParameter" type="com.neopad.infobee_car.common.RequestParameter"/>
+	<typeAlias alias="zipCode" type="com.neopad.infobee_car.zipcode.model.ZipCode"/>
+	
+	<resultMap class="zipCode" id="zipCodeResult">
+		<result property="seq" column="SEQ"/>
+		<result property="zipCode" column="ZIP_CODE"/>
+		<result property="sido" column="SIDO"/>
+		<result property="gugun" column="GUGUN"/>
+		<result property="dong" column="DONG"/>
+		<result property="ri" column="RI"/>
+		<result property="bunji" column="BUNJI"/>
+	</resultMap>
+	
+	<select id="selectSido" resultClass="zipCode">
+		SELECT 
+			DISTINCT(SIDO), SEQ 
+		FROM
+			TBL_000_ZIP_CODE GROUP BY SIDO
+	</select>
+
+	<select id="selectGugun" parameterClass="RequestParameter" resultClass="zipCode">
+		SELECT 
+			DISTINCT(GUGUN), SEQ, SIDO
+		FROM
+			TBL_000_ZIP_CODE
+		WHERE SIDO = #sido# GROUP BY GUGUN
+	</select>
+	
+	<select id="selectDong" parameterClass="RequestParameter" resultMap="zipCodeResult">
+	<![CDATA[
+	SELECT T2.*	
+	FROM(
+		SELECT @RNUM:=@RNUM+1 AS RM, T1.* 
+		FROM(
+			SELECT ZIP_CODE, SIDO, GUGUN, DONG, RI, BUNJI, SEQ	
+			FROM 
+				TBL_000_ZIP_CODE WHERE RI like CONCAT('%',#dong#,'%') OR DONG like CONCAT('%',#dong#,'%')
+			) AS T1, (SELECT @RNUM:=0) AS R) AS T2
+	WHERE 
+		RM>=#startNum# AND RM<=#endNum#;
+		]]>
+	</select>
+	
+	<select id="selectDongCount" parameterClass="String" resultClass="Integer">
+	SELECT COUNT(*)
+	FROM TBL_000_ZIP_CODE
+	WHERE RI like CONCAT('%',#dong#,'%') OR DONG like CONCAT('%',#dong#,'%')
+	</select>
+<!--  	
+	<select id="selectDong" parameterClass="zipCode" resultClass="zipCode">
+		SELECT 
+			DISTINCT(DONG), SEQ, ZIP_CODE, SIDO, GUGUN, DONG, RI, BUNJI 
+		FROM
+			TBL_000_ZIP_CODE
+		WHERE SIDO = #sido# AND GUGUN = #gugun#  GROUP BY DONG
+	</select>
+	<select id="selectRentDong" parameterClass="zipCode" resultMap="zipCodeResult">
+		SELECT 
+			DONG, SEQ, ZIP_CODE, SIDO, GUGUN, DONG, RI, BUNJI 
+		FROM
+			TBL_000_ZIP_CODE
+		WHERE RI like CONCAT('%',#dong#,'%') OR DONG like CONCAT('%',#dong#,'%')
+		limit $startCount$,$endCount$ 
+
+	</select>	
+	
+	<select id="pagingCnt" parameterClass="zipCode" resultClass="Integer">
+		SELECT 
+		 count(*)
+		FROM
+			TBL_000_ZIP_CODE
+		WHERE RI like CONCAT('%',#dong#,'%') OR DONG like CONCAT('%',#dong#,'%')
+	</select>
+-->
+	
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+

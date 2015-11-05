@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.neopad.infobee_car.subway">
+<!--
+	<typeAlias alias="subway" type="com.neopad.infobee_rental.subway.model.Subway"/>
+	
+	<select id="selectSubway" resultClass="subway">
+		SELECT 
+			DISTINCT(SUBWAY), NO, STATION
+		FROM
+			TBL_000_SUBWAY GROUP BY SUBWAY
+	</select>
+	
+	<select id="selectStation" parameterClass="subway" resultClass="subway">
+		SELECT 
+			DISTINCT(STATION), NO, SUBWAY
+		FROM
+			TBL_000_SUBWAY
+		WHERE
+			SUBWAY = #subway# GROUP BY STATION
+	</select>
+-->
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.neopad.infobee_car.company">
+
+	<typeAlias alias ="RequestParameter" type="com.neopad.infobee_car.common.RequestParameter"/>
+	<typeAlias alias="company" type="com.neopad.infobee_car.company.model.Company"/>
+	
+	<resultMap class="company" id="companyResult">
+		<result property="depth" column="DEPTH"/>
+		<result property="code" column="CODE"/>
+		<result property="value1" column="VALUE1"/>
+		<result property="value2" column="VALUE2"/>
+		<result property="value3" column="VALUE3"/>
+		<result property="value4" column="VALUE4"/>
+		<result property="value5" column="VALUE5"/>
+		<result property="value6" column="VALUE6"/>
+		<result property="value7" column="VALUE7"/>
+	</resultMap>
+	
+	<select id="selectCompanybyDepth" resultClass="company">
+		SELECT 
+			VALUE1,CODE 
+		FROM
+			TBL_008_CAR_CODE 
+		WHERE
+			DEPTH='D1'
+		ORDER BY VALUE1		
+	</select>
+	
+	<select id="selectCarTypebyDepth" resultClass="company">
+		SELECT 
+			VALUE6,CODE 
+		FROM
+			TBL_008_CAR_CODE 
+		WHERE
+			DEPTH='D3'
+		GROUP BY VALUE6
+		ORDER BY VALUE6		
+	</select>
+	
+	<select id="selectModelbyArg" parameterClass="RequestParameter" resultClass="company">
+		SELECT 
+			DISTINCT(VALUE3), CODE 
+		FROM
+			TBL_008_CAR_CODE
+		
+		WHERE VALUE1 = #value1#
+			AND	DEPTH = 'D3'
+			GROUP BY VALUE3
+			ORDER BY VALUE3	
+	</select>
+	
+	<select id="selectGradebyArg" parameterClass="RequestParameter" resultClass="company">
+			SELECT 
+			DISTINCT(VALUE4), CODE
+		FROM
+			TBL_008_CAR_CODE
+		WHERE VALUE3 = #value3#
+			AND VALUE1 = #value1# 
+			AND	(DEPTH = 'D4' OR DEPTH = 'D3')
+			AND VALUE4 != ''
+		ORDER BY VALUE4	
+	</select>
+	
+	<select id="selectDtlGradebyArg" parameterClass="RequestParameter" resultClass="company">
+		SELECT 
+			DISTINCT(VALUE5), CODE
+		FROM
+			TBL_008_CAR_CODE
+		WHERE VALUE4 = #value4#
+			AND VALUE3 = #value3# 
+			AND	DEPTH = 'D5'
+			AND VALUE5 != ''
+		ORDER BY VALUE5
+	</select>
+	
+	<!-- 팝업창 ~ 직접찾기 ~ 모델 리스트 출력-->
+	<select id="selectSearchModelList" parameterClass="RequestParameter" resultClass="company">
+		SELECT 
+			VALUE3, VALUE4, CODE
+		FROM
+			TBL_008_CAR_CODE
+		WHERE VALUE3 like CONCAT('%',#value3#,'%')
+			GROUP BY VALUE4
+		ORDER BY VALUE3	
+	</select>
+	
+	<!-- 팝업창 ~  카테고리 ~ 차종 리스트 출력 -->
+	<select id="selectCarTypeList" parameterClass="RequestParameter" resultClass="company">
+		SELECT 
+			VALUE6, CODE
+		FROM
+			TBL_008_CAR_CODE
+		WHERE VALUE1 = #value1# 
+			AND	DEPTH = 'D3'
+		GROUP BY VALUE6
+		ORDER BY VALUE6	
+	</select>
+	
+	<!-- 팝업창 ~  카테고리 ~ 모델 리스트 출력 -->
+	<select id="selectModelList" parameterClass="RequestParameter" resultClass="company">
+		SELECT 
+			VALUE3, CODE
+		FROM
+			TBL_008_CAR_CODE
+		WHERE VALUE1 = #value1#
+			AND VALUE6 = #value6# 
+			AND	DEPTH = 'D3'
+		GROUP BY VALUE3
+		ORDER BY VALUE3	
+	</select>
+	
+	<!-- 팝업창 ~  카테고리 ~ 등급 출력 -->
+	<select id="selectGradeList" parameterClass="RequestParameter" resultClass="company">
+		SELECT 
+			VALUE4, CODE
+		FROM
+			TBL_008_CAR_CODE
+		WHERE VALUE1 = #value1#
+			AND VALUE3 = #value3#
+			AND VALUE6 = #value6# 
+			AND	(DEPTH = 'D3' or DEPTH = 'D4')
+			AND VALUE4 != ''
+		GROUP BY VALUE4
+		ORDER BY VALUE4	
+	</select>
+	
+	<!-- 팝업창 ~  카테고리 ~ 세부등급 출력 -->
+	<select id="selectDetailGradeList" parameterClass="RequestParameter" resultClass="company">
+		SELECT 
+			VALUE5, CODE
+		FROM
+			TBL_008_CAR_CODE
+		WHERE VALUE1 = #value1#
+			AND VALUE3 = #value3#
+			AND VALUE4 = #value4#
+			AND VALUE6 = #value6# 
+			AND	DEPTH = 'D5'
+		GROUP BY VALUE5
+		ORDER BY VALUE5	
+	</select>
+	
+	<!-- input ~ 모델로 코드키 -->
+	<select id="selectMdlCodeKey" parameterClass="RequestParameter" resultClass="company">
+		SELECT 
+			CODE
+		FROM
+			TBL_008_CAR_CODE
+		WHERE
+			((VALUE3 = #value3_1# AND VALUE4 = #value4_1# AND VALUE5 = #value5_1#)
+			OR (VALUE3 = #value3_2# AND VALUE4 = #value4_2# AND VALUE5 = #value5_2#)
+			OR (VALUE3 = #value3_3# AND VALUE4 = #value4_3# AND VALUE5 = #value5_3#))
+		GROUP BY VALUE4
+		ORDER BY CODE	
+	</select>
+	
+	<!-- 코드로 모델값 가져오기-->
+	<select id="selectCodeMdlInfo" parameterClass="RequestParameter" resultClass="company">
+		SELECT *
+		FROM TBL_008_CAR_CODE
+		WHERE CODE = #code1#
+		OR CODE = #code2#
+		OR CODE = #code3#
+	</select>
+	
+	<select id="selectCompany" parameterClass="RequestParameter" resultClass="company">
+		SELECT 
+			*
+		FROM
+			TBL_008_CAR_CODE
+		WHERE CODE = #code#
+	</select>
+	
+	<select id="selectModelValue" parameterClass="RequestParameter" resultClass="company">
+		select 
+(select distinct(value1) from tbl_008_car_code where code = #value1# ) as value1, 
+(select distinct(value3) from tbl_008_car_code where code = #value3# ) as value3,
+(select distinct(value4) from tbl_008_car_code where code = #value4# ) as value4,
+(select distinct(value5) from tbl_008_car_code where code = #value5# ) as value5
+ from tbl_008_car_code limit 1;
+	</select>
+	
+	
+	
+
+<!--  	
+	<select id="selectGugun" parameterClass="RequestParameter" resultClass="zipCode">
+		SELECT 
+			DISTINCT(GUGUN), SEQ, SIDO
+		FROM
+			TBL_000_ZIP_CODE
+		WHERE SIDO = #sido# GROUP BY GUGUN
+	</select>
+
+	<select id="selectDong" parameterClass="zipCode" resultClass="zipCode">
+		SELECT 
+			DISTINCT(DONG), SEQ, ZIP_CODE, SIDO, GUGUN, DONG, RI, BUNJI 
+		FROM
+			TBL_000_ZIP_CODE
+		WHERE SIDO = #sido# AND GUGUN = #gugun#  GROUP BY DONG
+	</select>
+	<select id="selectRentDong" parameterClass="zipCode" resultMap="zipCodeResult">
+		SELECT 
+			DONG, SEQ, ZIP_CODE, SIDO, GUGUN, DONG, RI, BUNJI 
+		FROM
+			TBL_000_ZIP_CODE
+		WHERE RI like CONCAT('%',#dong#,'%') OR DONG like CONCAT('%',#dong#,'%')
+		limit $startCount$,$endCount$ 
+
+	</select>	
+	
+	<select id="pagingCnt" parameterClass="zipCode" resultClass="Integer">
+		SELECT 
+		 count(*)
+		FROM
+			TBL_000_ZIP_CODE
+		WHERE RI like CONCAT('%',#dong#,'%') OR DONG like CONCAT('%',#dong#,'%')
+	</select>
+-->
+	
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+

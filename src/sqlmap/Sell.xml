@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.neopad.infobee_car.sell">
+	<typeAlias alias ="RequestParameter" type="com.neopad.infobee_car.common.RequestParameter"/>		
+	<typeAlias alias="sell" type="com.neopad.infobee_car.sell.model.Sell"/>
+	
+	<resultMap class="sell" id="sellResult">
+		<result property="sellCarSeq" column="SELL_CAR_SEQ"/>
+		<result property="sellCarUserSeq" column="SELL_CAR_USER_SEQ"/>
+		<result property="sellCarRegNo" column="SELL_CAR_REG_NO"/>
+		<result property="sellCarDealType" column="SELL_CAR_DEAL_TYPE"/>
+		<result property="sellCarPrice" column="SELL_CAR_PRICE"/>
+		<result property="sellCarComp" column="SELL_CAR_COMP"/>
+		<result property="sellCarMdl" column="SELL_CAR_MDL"/>
+		<result property="sellCarGrd" column="SELL_CAR_GRD"/>
+		<result property="sellCarDtlGrd" column="SELL_CAR_DTL_GRD"/>
+		<result property="sellCarOpenYM" column="SELL_CAR_OPEN_YM"/>
+		<result property="sellCarColor" column="SELL_CAR_COLOR"/>
+		<result property="sellCarTrsms" column="SELL_CAR_TRSMS"/>
+		<result property="sellCarDoorKind" column="SELL_CAR_DOOR_KND"/>
+		<result property="sellCarMileage" column="SELL_CAR_MILEAGE"/>
+		<result property="sellCarEngineKind" column="SELL_CAR_ENGINE_KND"/>
+		<result property="sellCarCC" column="SELL_CAR_CC"/>
+		<result property="sellCarFuel" column="SELL_CAR_FUEL"/>
+		<result property="sellCarOptSafe" column="SELL_CAR_OPT_SAFE"/>
+		<result property="sellCarOptConv" column="SELL_CAR_OPT_CONV"/>
+		<result property="sellCarOptAV" column="SELL_CAR_OPT_AV"/>
+		<result property="sellCarFeature" column="SELL_CAR_FEATURE"/>
+		<result property="sellCarTrbYN" column="SELL_CAR_TRB_YN"/>
+		<result property="sellCarTitle" column="SELL_CAR_TITLE"/>
+		<result property="sellCarContent" column="SELL_CAR_CONTENT"/>
+		<result property="sellCarUserName" column="SELL_CAR_USER_NAME"/>
+		<result property="sellCarUserEmail" column="SELL_CAR_USER_EMAIL"/>
+		<result property="sellCarUserPhone" column="SELL_CAR_USER_PHONE"/>
+		<result property="sellCarUserComp" column="SELL_CAR_USER_COMP"/>
+		<result property="sellCarUserCompPhone" column="SELL_CAR_USER_COMP_PHONE"/>
+		<result property="sellCarUserCompAddr" column="SELL_CAR_USER_COMP_ADDR"/>
+		<result property="sellCarUserCompAddrDtl" column="SELL_CAR_USER_COMP_ADDR_DTL"/>
+		<result property="sellCarUserZipCD" column="SELL_CAR_USER_ZIP_CD"/>
+		<result property="sellCarUserAddrCD" column="SELL_CAR_USER_ADDR_CD"/>
+		<result property="sellCarStep" column="SELL_CAR_STEP"/>
+		<result property="sellCarMemo" column="SELL_CAR_MEMO"/>
+		<result property="sellCarStateYN" column="SELL_CAR_STATE_YN"/>
+		<result property="sellCarRegDate" column="SELL_CAR_REG_DATE"/>
+		<result property="sellCarChgDate" column="SELL_CAR_CHG_DATE"/>
+										
+	</resultMap>
+	
+		<resultMap class="sell" id="sellListResult">
+		<result property="rowNum" column="ROWNUM"/>
+		<result property="sellCarSeq" column="SELL_CAR_SEQ"/>
+		<result property="sellCarUserSeq" column="SELL_CAR_USER_SEQ"/>
+		<result property="sellCarRegNo" column="SELL_CAR_REG_NO"/>
+		<result property="sellCarDealType" column="SELL_CAR_DEAL_TYPE"/>
+		<result property="sellCarPrice" column="SELL_CAR_PRICE"/>
+		<result property="sellCarComp" column="SELL_CAR_COMP"/>
+		<result property="sellCarMdl" column="SELL_CAR_MDL"/>
+		<result property="sellCarGrd" column="SELL_CAR_GRD"/>
+		<result property="sellCarDtlGrd" column="SELL_CAR_DTL_GRD"/>
+		<result property="sellCarOpenYM" column="SELL_CAR_OPEN_YM"/>
+		<result property="sellCarColor" column="SELL_CAR_COLOR"/>
+		<result property="sellCarTrsms" column="SELL_CAR_TRSMS"/>
+		<result property="sellCarDoorKind" column="SELL_CAR_DOOR_KND"/>
+		<result property="sellCarMileage" column="SELL_CAR_MILEAGE"/>
+		<result property="sellCarEngineKind" column="SELL_CAR_ENGINE_KND"/>
+		<result property="sellCarCC" column="SELL_CAR_CC"/>
+		<result property="sellCarFuel" column="SELL_CAR_FUEL"/>
+		<result property="sellCarOptSafe" column="SELL_CAR_OPT_SAFE"/>
+		<result property="sellCarOptConv" column="SELL_CAR_OPT_CONV"/>
+		<result property="sellCarOptAV" column="SELL_CAR_OPT_AV"/>
+		<result property="sellCarFeature" column="SELL_CAR_FEATURE"/>
+		<result property="sellCarTrbYN" column="SELL_CAR_TRB_YN"/>
+		<result property="sellCarTitle" column="SELL_CAR_TITLE"/>
+		<result property="sellCarContent" column="SELL_CAR_CONTENT"/>
+		<result property="sellCarUserName" column="SELL_CAR_USER_NAME"/>
+		<result property="sellCarUserEmail" column="SELL_CAR_USER_EMAIL"/>
+		<result property="sellCarUserPhone" column="SELL_CAR_USER_PHONE"/>
+		<result property="sellCarUserComp" column="SELL_CAR_USER_COMP"/>
+		<result property="sellCarUserCompPhone" column="SELL_CAR_USER_COMP_PHONE"/>
+		<result property="sellCarUserCompAddr" column="SELL_CAR_USER_COMP_ADDR"/>
+		<result property="sellCarUserCompAddrDtl" column="SELL_CAR_USER_COMP_ADDR_DTL"/>
+		<result property="sellCarUserZipCD" column="SELL_CAR_USER_ZIP_CD"/>
+		<result property="sellCarUserAddrCD" column="SELL_CAR_USER_ADDR_CD"/>
+		<result property="sellCarStep" column="SELL_CAR_STEP"/>
+		<result property="sellCarMemo" column="SELL_CAR_MEMO"/>
+		<result property="sellCarStateYN" column="SELL_CAR_STATE_YN"/>
+		<result property="sellCarRegDate" column="SELL_CAR_REG_DATE"/>
+		<result property="sellCarChgDate" column="SELL_CAR_CHG_DATE"/>
+		<result property="attachFile" column="ATTACHFILE"/>	
+		<result property="matching" column="MATCHING"/>			
+		<result property="newMatching" column="NEW_MATCHING"/>			
+										
+	</resultMap>
+	
+	
+	<resultMap class="sell" id="sellOptResult">
+		<result property="sellCarTrsms" column="SELL_CAR_TRSMS"/>
+		<result property="sellCarDoorKind" column="SELL_CAR_DOOR_KND"/>
+		<result property="sellCarEngineKind" column="SELL_CAR_ENGINE_KND"/>
+		<result property="sellCarFuel" column="SELL_CAR_FUEL"/>
+		<result property="sellCarFeature" column="SELL_CAR_FEATURE"/>
+		<result property="sellCarRegDate" column="SELL_CAR_REG_DATE"/>
+		<result property="sellCarRegNo" column="SELL_CAR_REG_NO"/>
+		<result property="attachFile" column="ATTACHFILE"/>
+						
+	</resultMap>
+	
+	<select id="selectSellMainCount" parameterClass="RequestParameter" resultClass="java.util.HashMap">
+		SELECT 
+		  (SELECT COUNT(*) FROM TBL_008_TRANSACTION_PROGRESS 
+		    WHERE TRANS_USER_SEQ = #sellCarUserSeq# 
+            	AND TRANS_DEAL_MAIN = 'R'
+                AND TRANS_CONDITION IN ('001', '002', '003', '004', '005')) AS REQ_CNT,
+		  (SELECT COUNT(*) FROM TBL_008_SELL_CAR TS
+            WHERE (CASE 
+                 WHEN (SELECT TP.TRANS_CONDITION FROM TBL_008_TRANSACTION_PROGRESS TP
+                  WHERE TP.TRANS_USER_SEQ = #sellCarUserSeq#
+                  AND TP.TRANS_SELL_CAR_SEQ = TS.SELL_CAR_SEQ
+                  AND TP.TRANS_DEAL_MAIN = 'R'
+                  AND TP.TRANS_CONDITION = '006') = '006' THEN '거래완료'	
+                 WHEN (SELECT COUNT(TP.TRANS_SEQ) FROM TBL_008_TRANSACTION_PROGRESS TP 
+                  WHERE TP.TRANS_USER_SEQ = #sellCarUserSeq#
+                  AND TP.TRANS_SELL_CAR_SEQ = TS.SELL_CAR_SEQ
+                  AND TP.TRANS_DEAL_MAIN = 'R'
+                  AND TP.TRANS_CONDITION = '001') = 
+                  (SELECT COUNT(TP.TRANS_SEQ) FROM TBL_008_TRANSACTION_PROGRESS TP 
+                  WHERE TP.TRANS_USER_SEQ = #sellCarUserSeq#
+                  AND TP.TRANS_SELL_CAR_SEQ = TS.SELL_CAR_SEQ
+                  AND TP.TRANS_DEAL_MAIN = 'R') THEN '거래실패'
+                  ELSE '교섭중' END) = '교섭중'  
+                  AND TS.SELL_CAR_USER_SEQ = #sellCarUserSeq# 
+                  AND 0 &lt; (SELECT COUNT(TP.TRANS_SEQ) 
+                      FROM TBL_008_TRANSACTION_PROGRESS TP
+                      WHERE TP.TRANS_USER_SEQ = #sellCarUserSeq#
+                      AND TP.TRANS_SELL_CAR_SEQ = TS.SELL_CAR_SEQ
+                      AND TP.TRANS_DEAL_MAIN = 'R'
+                      AND TP.TRANS_CONDITION != '000')
+          ) AS REQ_CNT005,
+		  (SELECT COUNT(*) FROM TBL_008_SELL_CAR 
+		    WHERE SELL_CAR_USER_SEQ = #sellCarUserSeq# 
+		      	AND SELL_CAR_STEP = '1') AS REQ_CNT006
+		  FROM TBL_008_SELL_CAR  GROUP BY REQ_CNT
+	</select>
+ 	
+	<insert id="insertCar" parameterClass="RequestParameter">
+		INSERT INTO TBL_008_SELL_CAR(
+			SELL_CAR_USER_SEQ,
+			SELL_CAR_REG_NO,
+			SELL_CAR_DEAL_TYPE,
+			SELL_CAR_PRICE,
+			SELL_CAR_COMP,
+			SELL_CAR_MDL,
+			SELL_CAR_GRD,
+			SELL_CAR_DTL_GRD,
+			SELL_CAR_OPEN_YM,
+			SELL_CAR_COLOR,
+			SELL_CAR_TRSMS,
+			SELL_CAR_DOOR_KND,
+			SELL_CAR_MILEAGE,
+			SELL_CAR_ENGINE_KND,
+			SELL_CAR_CC,
+			SELL_CAR_FUEL,
+			SELL_CAR_OPT_SAFE,
+			SELL_CAR_OPT_CONV,
+			SELL_CAR_OPT_AV,
+			SELL_CAR_FEATURE,
+			SELL_CAR_TRB_YN,
+			SELL_CAR_TITLE,
+			SELL_CAR_CONTENT,
+			SELL_CAR_USER_NAME,
+			SELL_CAR_USER_EMAIL,
+			SELL_CAR_USER_PHONE,
+			SELL_CAR_USER_COMP,
+			SELL_CAR_USER_COMP_PHONE,
+			SELL_CAR_USER_COMP_ADDR,
+			SELL_CAR_USER_COMP_ADDR_DTL,
+			SELL_CAR_USER_ZIP_CD,
+			SELL_CAR_USER_ADDR_CD,
+			SELL_CAR_STEP,
+			SELL_CAR_MEMO,
+			SELL_CAR_STATE_YN,
+			SELL_CAR_REG_DATE,
+			SELL_CAR_CHG_DATE)
+		VALUES(
+			#sellCarUserSeq#,
+			#sellCarRegNo#,
+			#sellCarDealType#,
+			#sellCarPrice#,
+			#sellCarComp#,
+			#sellCarMdl#,
+			#sellCarGrd#,
+			#sellCarDtlGrd#,
+			#sellCarOpenYM#,
+			#sellCarColor#,
+			#sellCarTrsms#,
+			#sellCarDoorKind#,
+			#sellCarMileage#,
+			#sellCarEngineKind#,
+			#sellCarCC#,
+			#sellCarFuel#,
+			#sellCarOptSafe#,
+			#sellCarOptConv#,
+			#sellCarOptAV#,
+			#sellCarFeature#,
+			#sellCarTrbYN#,
+			#sellCarTitle#,
+			#sellCarContent#, 
+			#sellCarUserName#,
+			#sellCarUserEmail#,
+			#sellCarUserPhone#,
+			#sellCarUserComp#,
+			#sellCarUserCompPhone#,
+			#sellCarUserCompAddr#,
+			#sellCarUserCompAddrDtl#,
+			#sellCarUserZipCD#,
+			#sellCarUserAddrCD#,
+			#sellCarStep#,
+			#sellCarMemo#,
+			#sellCarStateYN#,
+			NOW(),
+			NOW()
+		)
+	</insert>
+	<select id="selectCreatedSeq" resultClass="int">
+		SELECT 
+			SELL_CAR_SEQ 
+		FROM 
+			TBL_008_SELL_CAR 
+		ORDER BY SELL_CAR_REG_DATE DESC 
+		LIMIT 1;
+	</select>
+	
+	<select id="selectRegNumber" resultClass="int" parameterClass="String">
+		SELECT COUNT(TS.SELL_CAR_SEQ) FROM TBL_008_SELL_CAR TS WHERE TS.SELL_CAR_REG_NO = #strSequance#
+	</select>
+	
+	<select id="getObjectBySeq" resultMap="sellResult" parameterClass="RequestParameter">
+		SELECT * FROM TBL_008_SELL_CAR WHERE SELL_CAR_SEQ = #sellCarSeq#
+	</select>
+	
+	<update id="update" parameterClass="RequestParameter">
+		UPDATE TBL_008_SELL_CAR
+		SET
+			SELL_CAR_DEAL_TYPE = #sellCarDealType#,
+			SELL_CAR_PRICE = #sellCarPrice#,
+			SELL_CAR_COMP = #sellCarComp#,
+			SELL_CAR_MDL = #sellCarMdl#,
+			SELL_CAR_GRD = #sellCarGrd#,
+			SELL_CAR_DTL_GRD = #sellCarDtlGrd#,
+			SELL_CAR_OPEN_YM = #sellCarOpenYM#,
+			SELL_CAR_COLOR = #sellCarColor#,
+			SELL_CAR_TRSMS = #sellCarTrsms#,
+			SELL_CAR_DOOR_KND = #sellCarDoorKind#,
+			SELL_CAR_MILEAGE = #sellCarMileage#,
+			SELL_CAR_ENGINE_KND = #sellCarEngineKind#,
+			SELL_CAR_CC = #sellCarCC#,
+			SELL_CAR_FUEL= #sellCarFuel#,
+			SELL_CAR_OPT_SAFE= #sellCarOptSafe#,
+			SELL_CAR_OPT_CONV = #sellCarOptConv#,
+			SELL_CAR_OPT_AV = #sellCarOptAV#,
+			SELL_CAR_FEATURE = #sellCarFeature#,
+			SELL_CAR_TRB_YN = #sellCarTrbYN#,
+			SELL_CAR_TITLE = #sellCarTitle#,
+			SELL_CAR_CONTENT =#sellCarContent#, 
+			SELL_CAR_USER_NAME = #sellCarUserName#,
+			SELL_CAR_USER_EMAIL = #sellCarUserEmail#,
+			SELL_CAR_USER_PHONE = #sellCarUserPhone#,
+			SELL_CAR_USER_COMP = #sellCarUserComp#,
+			SELL_CAR_USER_COMP_PHONE = #sellCarUserCompPhone#,
+			SELL_CAR_USER_COMP_ADDR  =#sellCarUserCompAddr#,
+			SELL_CAR_USER_COMP_ADDR_DTL = #sellCarUserCompAddrDtl#,
+			SELL_CAR_USER_ZIP_CD = #sellCarUserZipCD#,
+			SELL_CAR_USER_ADDR_CD = #sellCarUserAddrCD#,
+			SELL_CAR_CHG_DATE = NOW()
+		WHERE
+			SELL_CAR_SEQ = #sellCarSeq#
+
+	
+	</update>
+	
+	<select id="getListByUserSeq" resultMap="sellListResult" parameterClass="RequestParameter">
+		SELECT TEMP2.* FROM(
+	SELECT
+			(SELECT @RNUM := @RNUM + 1) AS ROWNUM, 
+			IFNULL(SELL_CAR_SEQ, 0) AS SELL_CAR_SEQ,
+			IFNULL(SELL_CAR_USER_SEQ, 0) AS SELL_CAR_USER_SEQ,
+			SELL_CAR_REG_NO,
+			SELL_CAR_DEAL_TYPE,
+			IFNULL(SELL_CAR_PRICE, 0) AS SELL_CAR_PRICE,
+			(SELECT DISTINCT(VALUE1)
+			FROM TBL_008_CAR_CODE CC
+			WHERE CC.CODE = SC.SELL_CAR_COMP
+			) AS SELL_CAR_COMP,
+			(SELECT DISTINCT(VALUE3)
+			FROM TBL_008_CAR_CODE CC
+			WHERE CC.CODE = SC.SELL_CAR_MDL
+			) AS SELL_CAR_MDL,
+			(SELECT DISTINCT(VALUE4)
+			FROM TBL_008_CAR_CODE CC
+			WHERE CC.CODE = SC.SELL_CAR_GRD
+			) AS SELL_CAR_GRD,
+			(SELECT DISTINCT(VALUE5)
+			FROM TBL_008_CAR_CODE CC
+			WHERE CC.CODE = SC.SELL_CAR_DTL_GRD
+			) AS SELL_CAR_DTL_GRD,
+			SELL_CAR_OPEN_YM,
+			SELL_CAR_COLOR,
+			(SELECT VALUE1 
+				FROM TBL_008_CODE CD 
+		      WHERE CD.CODE_CATEGORY = 'CD_CAR_GEARSHIFT' 
+		      AND CD.CODE_KEY = SC.SELL_CAR_TRSMS
+		   ) AS SELL_CAR_TRSMS,
+			SELL_CAR_DOOR_KND,
+			SELL_CAR_MILEAGE,
+			SELL_CAR_ENGINE_KND,
+			IFNULL(SELL_CAR_CC, 0) AS SELL_CAR_CC,
+			(SELECT VALUE1 
+				FROM TBL_008_CODE CD 
+		      WHERE CD.CODE_CATEGORY = 'CD_CAR_FUEL' 
+		      AND CD.CODE_KEY = SC.SELL_CAR_FUEL
+		   ) AS SELL_CAR_FUEL,
+			SELL_CAR_OPT_SAFE,
+			SELL_CAR_OPT_CONV,
+			SELL_CAR_OPT_AV,
+			SELL_CAR_FEATURE,
+			SELL_CAR_TRB_YN,
+			SELL_CAR_TITLE,
+			SELL_CAR_CONTENT,
+			SELL_CAR_USER_NAME,
+			SELL_CAR_USER_EMAIL,
+			SELL_CAR_USER_PHONE,
+			SELL_CAR_USER_COMP,
+			SELL_CAR_USER_COMP_PHONE,
+			SELL_CAR_USER_COMP_ADDR,
+			SELL_CAR_USER_COMP_ADDR_DTL,
+			SELL_CAR_USER_ZIP_CD,
+			SELL_CAR_USER_ADDR_CD,
+			SELL_CAR_STEP,
+			SELL_CAR_MEMO,
+			SELL_CAR_STATE_YN,
+			DATE_FORMAT(SELL_CAR_REG_DATE, '%y/%m/%d') AS SELL_CAR_REG_DATE,
+			SELL_CAR_CHG_DATE,
+			(SELECT ATTACH_FILE_NAME FROM TBL_008_ATTACHFILE WHERE ATTACH_SELL_SEQ = SC.SELL_CAR_SEQ	LIMIT 1) AS ATTACHFILE ,
+			(SELECT COUNT(*)-(SELECT COUNT(*) FROM TBL_008_TRANSACTION_PROGRESS 
+			WHERE TRANS_CONDITION!='000'
+			AND TRANS_DEAL_MAIN='S'
+			AND TRANS_SELL_CAR_SEQ=SC.SELL_CAR_SEQ
+			) FROM
+			 (SELECT * FROM TBL_008_BUY_CAR) AS TEMP3
+			WHERE (TEMP3.BUY_CAR_MDL1 = 
+			CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+			OR TEMP3.BUY_CAR_MDL2 = 
+			CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+			OR TEMP3.BUY_CAR_MDL3 = 
+			CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+			OR (TEMP3.BUY_CAR_MDL1 = ''
+			AND TEMP3.BUY_CAR_MDL2 = ''
+			AND TEMP3.BUY_CAR_MDL3 = ''
+			))
+			AND (TEMP3.BUY_CAR_STEP != 3
+			AND TEMP3.BUY_CAR_STEP!=4
+			)
+			)AS MATCHING,
+			
+			(SELECT COUNT(*) -
+			(
+			SELECT COUNT(*) FROM TBL_008_TRANSACTION_PROGRESS WHERE TRANS_SELL_CAR_SEQ = SC.SELL_CAR_SEQ AND TRANS_DEAL_MAIN='S'
+			)
+			FROM
+			 (SELECT * FROM TBL_008_BUY_CAR) AS TEMP3
+			WHERE (TEMP3.BUY_CAR_MDL1 = 
+			CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+			OR TEMP3.BUY_CAR_MDL2 = 
+			CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+			OR TEMP3.BUY_CAR_MDL3 = 
+			CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+			OR (TEMP3.BUY_CAR_MDL1 = ''
+			AND TEMP3.BUY_CAR_MDL2 = ''
+			AND TEMP3.BUY_CAR_MDL3 = ''
+			)
+			
+			AND (TEMP3.BUY_CAR_STEP != 3
+			AND TEMP3.BUY_CAR_STEP!=4
+			)
+			
+			)
+			)AS NEW_MATCHING
+		
+						
+		FROM TBL_008_SELL_CAR SC, ( SELECT @RNUM := 0 ) R 
+		WHERE SELL_CAR_USER_SEQ = #sellCarUserSeq#
+		AND SELL_CAR_STEP != 4
+		AND SELL_CAR_STEP != 3
+		ORDER BY  SELL_CAR_SEQ DESC
+	) TEMP2
+	WHERE
+	ROWNUM > #startCount#
+	AND ROWNUM &lt;= #lastCount#
+	
+	</select>
+	
+	<select id="selectGetRowCount" resultClass="int" parameterClass="RequestParameter">
+			SELECT COUNT(*) FROM TBL_008_SELL_CAR WHERE SELL_CAR_USER_SEQ = #sellCarUserSeq#
+	</select>
+	
+	<select id="getListFromSeqs" parameterClass="RequestParameter" resultClass="java.util.HashMap">
+		SELECT SELL_CAR_SEQ, BUY_CAR_SEQ FROM TBL_008_SELL_CAR SC,TBL_008_BUY_CAR BC 
+WHERE SELL_CAR_SEQ=#sellCarSeq#
+AND
+(BC.BUY_CAR_MDL1 = 
+	CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+			OR BC.BUY_CAR_MDL2 = 
+			CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+			OR BC.BUY_CAR_MDL3 = 
+			CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+					OR(
+			BC.BUY_CAR_MDL1 = ''
+			AND BC.BUY_CAR_MDL2 = ''
+			AND BC.BUY_CAR_MDL3 = ''
+			)
+			AND BC.BUY_CAR_STEP != 4
+			AND BC.BUY_CAR_STEP != 3
+)
+	
+	</select>
+	
+	
+		<select id="getObjectByUserSeq" resultMap="sellListResult" parameterClass="RequestParameter">
+SELECT TEMP2.* FROM(
+	SELECT
+			(SELECT @RNUM := @RNUM + 1) AS ROWNUM, 
+			IFNULL(SELL_CAR_SEQ, 0) AS SELL_CAR_SEQ,
+			IFNULL(SELL_CAR_USER_SEQ, 0) AS SELL_CAR_USER_SEQ,
+			SELL_CAR_REG_NO,
+			SELL_CAR_DEAL_TYPE,
+			IFNULL(SELL_CAR_PRICE, 0) AS SELL_CAR_PRICE,
+			(SELECT DISTINCT(VALUE1)
+			FROM TBL_008_CAR_CODE CC
+			WHERE CC.CODE = SC.SELL_CAR_COMP
+			) AS SELL_CAR_COMP,
+			(SELECT DISTINCT(VALUE3)
+			FROM TBL_008_CAR_CODE CC
+			WHERE CC.CODE = SC.SELL_CAR_MDL
+			) AS SELL_CAR_MDL,
+			(SELECT DISTINCT(VALUE4)
+			FROM TBL_008_CAR_CODE CC
+			WHERE CC.CODE = SC.SELL_CAR_GRD
+			) AS SELL_CAR_GRD,
+			(SELECT DISTINCT(VALUE5)
+			FROM TBL_008_CAR_CODE CC
+			WHERE CC.CODE = SC.SELL_CAR_DTL_GRD
+			) AS SELL_CAR_DTL_GRD,
+			SELL_CAR_OPEN_YM,
+			SELL_CAR_COLOR,
+			(SELECT VALUE1 
+				FROM TBL_008_CODE CD 
+		      WHERE CD.CODE_CATEGORY = 'CD_CAR_GEARSHIFT' 
+		      AND CD.CODE_KEY = SC.SELL_CAR_TRSMS
+		   ) AS SELL_CAR_TRSMS,
+			SELL_CAR_DOOR_KND,
+			SELL_CAR_MILEAGE,
+			SELL_CAR_ENGINE_KND,
+			IFNULL(SELL_CAR_CC, 0) AS SELL_CAR_CC,
+			(SELECT VALUE1 
+				FROM TBL_008_CODE CD 
+		      WHERE CD.CODE_CATEGORY = 'CD_CAR_FUEL' 
+		      AND CD.CODE_KEY = SC.SELL_CAR_FUEL
+		   ) AS SELL_CAR_FUEL,
+			SELL_CAR_OPT_SAFE,
+			SELL_CAR_OPT_CONV,
+			SELL_CAR_OPT_AV,
+			SELL_CAR_FEATURE,
+			SELL_CAR_TRB_YN,
+			SELL_CAR_TITLE,
+			SELL_CAR_CONTENT,
+			SELL_CAR_USER_NAME,
+			SELL_CAR_USER_EMAIL,
+			SELL_CAR_USER_PHONE,
+			SELL_CAR_USER_COMP,
+			SELL_CAR_USER_COMP_PHONE,
+			SELL_CAR_USER_COMP_ADDR,
+			SELL_CAR_USER_COMP_ADDR_DTL,
+			SELL_CAR_USER_ZIP_CD,
+			SELL_CAR_USER_ADDR_CD,
+			SELL_CAR_STEP,
+			SELL_CAR_MEMO,
+			SELL_CAR_STATE_YN,
+			DATE_FORMAT(SELL_CAR_REG_DATE, '%y/%m/%d') AS SELL_CAR_REG_DATE,
+			SELL_CAR_CHG_DATE,
+			(SELECT ATTACH_FILE_NAME FROM TBL_008_ATTACHFILE WHERE ATTACH_SELL_SEQ = SC.SELL_CAR_SEQ	LIMIT 1) AS ATTACHFILE ,
+			(SELECT COUNT(*)-(SELECT COUNT(*) FROM TBL_008_TRANSACTION_PROGRESS 
+			WHERE TRANS_CONDITION!='000'
+			AND TRANS_DEAL_MAIN='S'
+			AND TRANS_SELL_CAR_SEQ=SC.SELL_CAR_SEQ) FROM
+			 (SELECT * FROM TBL_008_BUY_CAR) AS TEMP3
+			WHERE (TEMP3.BUY_CAR_MDL1 = 
+			CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+			OR TEMP3.BUY_CAR_MDL2 = 
+			CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+			OR TEMP3.BUY_CAR_MDL3 = 
+			CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+			OR (TEMP3.BUY_CAR_MDL1 = ''
+			AND TEMP3.BUY_CAR_MDL2 = ''
+			AND TEMP3.BUY_CAR_MDL3 = ''
+			))
+			AND TEMP3.BUY_CAR_STEP != 3
+			AND TEMP3.BUY_CAR_STEP!=4
+			
+			)AS MATCHING,
+			
+			(SELECT COUNT(*) -
+			(
+			SELECT COUNT(*) FROM TBL_008_TRANSACTION_PROGRESS WHERE TRANS_SELL_CAR_SEQ = SC.SELL_CAR_SEQ AND TRANS_DEAL_MAIN='S'
+			)
+			FROM
+			 (SELECT * FROM TBL_008_BUY_CAR) AS TEMP4
+			WHERE (TEMP4.BUY_CAR_MDL1 = 
+			CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+			OR TEMP4.BUY_CAR_MDL2 = 
+			CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+			OR TEMP4.BUY_CAR_MDL3 = 
+			CASE
+			WHEN SC.SELL_CAR_DTL_GRD != 'NULL'
+			THEN SC.SELL_CAR_DTL_GRD
+			ELSE SC.SELL_CAR_GRD
+			END
+			
+			OR (TEMP4.BUY_CAR_MDL1 = ''
+			AND TEMP4.BUY_CAR_MDL2 = ''
+			AND TEMP4.BUY_CAR_MDL3 = ''
+			)
+			
+			AND (TEMP4.BUY_CAR_STEP != 3
+			AND TEMP4.BUY_CAR_STEP!=4
+			)
+			
+			)
+			)AS NEW_MATCHING
+		
+						
+		FROM TBL_008_SELL_CAR SC, ( SELECT @RNUM := 0 ) R 
+		WHERE SELL_CAR_SEQ = #sellCarSeq#
+		AND SELL_CAR_STEP != 4
+		AND SELL_CAR_STEP != 3
+		ORDER BY  SELL_CAR_SEQ DESC
+	) TEMP2
+	
+	</select>
+	
+	<select id="getObjectFromOpt" parameterClass="RequestParameter" resultMap="sellOptResult">
+		SELECT 
+		(SELECT VALUE1 
+				FROM TBL_008_CODE CD 
+		      WHERE CD.CODE_CATEGORY = 'CD_CAR_GEARSHIFT' 
+		      AND CD.CODE_KEY = SC.SELL_CAR_TRSMS
+		   ) AS SELL_CAR_TRSMS,
+		(SELECT VALUE1 
+				FROM TBL_008_CODE CD 
+		      WHERE CD.CODE_CATEGORY = 'CD_CAR_DOORS' 
+		      AND CD.CODE_KEY = SC.SELL_CAR_DOOR_KND
+		   ) AS SELL_CAR_DOOR_KND,
+		(SELECT VALUE1 
+				FROM TBL_008_CODE CD 
+		      WHERE CD.CODE_CATEGORY = 'CD_CAR_ENGINE' 
+		      AND CD.CODE_KEY = SC.SELL_CAR_ENGINE_KND
+		   ) AS	SELL_CAR_ENGINE_KND,
+			(SELECT VALUE1 
+				FROM TBL_008_CODE CD 
+		      WHERE CD.CODE_CATEGORY = 'CD_CAR_FUEL' 
+		      AND CD.CODE_KEY = SC.SELL_CAR_FUEL
+		   ) AS SELL_CAR_FUEL,
+		   (SELECT VALUE1 
+				FROM TBL_008_CODE CD 
+		      WHERE CD.CODE_CATEGORY = 'CD_CAR_FEATURE' 
+		      AND CD.CODE_KEY = SC.SELL_CAR_FEATURE
+		   ) AS SELL_CAR_FEATURE,
+		   SELL_CAR_REG_DATE,
+		   SELL_CAR_REG_NO,
+		   (SELECT ATTACH_FILE_NAME FROM TBL_008_ATTACHFILE WHERE ATTACH_SELL_SEQ = SC.SELL_CAR_SEQ	LIMIT 1) AS ATTACHFILE
+		   FROM TBL_008_SELL_CAR SC
+		   WHERE SC.SELL_CAR_SEQ = #seq#
+	</select>
+	
+	<update id="updateStepBySeq" parameterClass="RequestParameter">
+		UPDATE TBL_008_SELL_CAR
+		SET
+			SELL_CAR_STEP=#sellCarStep#
+		WHERE
+			SELL_CAR_SEQ = #sellCarSeq#
+	</update>
+	
+	
+
+
+
+<!-- 	
+	<select id="selectUserByUserEmail" parameterClass="RequestParameter" resultMap="userResult">
+		SELECT
+			USER_SEQ, USER_EMAIL, USER_PASSWORD, USER_NAME, USER_RRN_NO, USER_PMT_NO, USER_STATUS, USER_REG_DATE
+		FROM
+			TBL_000_USER
+		WHERE
+			USER_EMAIL = #userEmail#
+		<isNotEmpty property="userPassword">
+			AND USER_PASSWORD = #userPassword#
+		</isNotEmpty>
+	</select>
+ -->
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+

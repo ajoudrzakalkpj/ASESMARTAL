@@ -1,0 +1,5 @@
+--- 10.8일용 초기 데이터베이스 환경 설정
+DROP DATABASE aseDB;
+CREATE DATABASE aseDB;
+GRANT ALL PRIVILEGES ON aseDB.* to aseDB@localhost IDENTIFIED BY 'aseDB' WITH GRANT OPTION;
+quit
