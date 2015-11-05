@@ -10,9 +10,9 @@
 
 	
 	<sqlMap resource="sqlmap/User.xml" />
+	<sqlMap resource="sqlmap/Board.xml" />
 	
 	<!-- 
-	<sqlMap resource="sqlmap/Board.xml" />
 	<sqlMap resource="sqlmap/Goods.xml" />
 	<sqlMap resource="sqlmap/Attachfile.xml" />
 	<sqlMap resource="sqlmap/ZipCode.xml" />
