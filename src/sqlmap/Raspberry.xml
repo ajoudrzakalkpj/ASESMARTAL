@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.ajou.ase.raspberrycontrol">
+
+	<typeAlias alias ="RequestParameter" type="com.ajou.ase.common.RequestParameter"/>		
+	<typeAlias alias="raspberry" type="com.ajou.ase.raspberrycontrol.Raspberry"/>
+	
+	<resultMap class="raspberry" id="raspberryResult">
+		<result property="raspberryNumSeq" column="RASPBERRY_NUMSEQ"/>
+		<result property="raspberryID" column="RASPBERRY_ID"/>
+		<result property="raspberryNumSN" column="RASPBERRY_NUMSN"/>
+		<result property="raspberryStatus" column="RASPBERRY_STATUS"/>
+		<result property="raspberryIPAddr" column="RASPBERRY_IPADDR"/>
+		<result property="raspberrySSID" column="RASPBERRY_SSID"/>
+		<result property="raspberryLastUpdateTime" column="RASPBERRY_LASTUPDATETIME"/>
+		<result property="raspberryServerAdmin" column="RASPBERRY_SERVERADMIN"/>
+		
+	</resultMap>
+	
+	<!-- 10.26. 봉재 : userID가 중복성 검사를 위한 result map 생성 -->
+	<resultMap class="raspberry" id="raspberrySNNumResult">
+		<result property="raspberryNumSN" column="RASPBERRY_NUMSN"/>
+	</resultMap>
+	
+	<!--  10.9 병욱 : ID중복 체크 테이블 내에 아이디 있나 확인 -->
+	<select id="selectCheckSNBySN" parameterClass="RequestParameter" resultMap="raspberrySNNumResult">
+		SELECT
+			RASPBERRY_NUMSN
+		FROM
+			TBL_RASPBERRY_INFO
+		WHERE
+			RASPBERRY_NUMSN = #raspberryNumSN#
+		
+	</select>
+
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+

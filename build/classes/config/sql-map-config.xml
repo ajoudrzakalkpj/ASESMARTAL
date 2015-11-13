@@ -11,11 +11,11 @@
 	
 	<sqlMap resource="sqlmap/User.xml" />
 	<sqlMap resource="sqlmap/Board.xml" />
+	<sqlMap resource="sqlmap/Raspberry.xml" />
 	
 	<!-- 
 	<sqlMap resource="sqlmap/Goods.xml" />
 	<sqlMap resource="sqlmap/Attachfile.xml" />
-	<sqlMap resource="sqlmap/ZipCode.xml" />
 	<sqlMap resource="sqlmap/Subway.xml" />
 	<sqlMap resource="sqlmap/Sell.xml" />
 	<sqlMap resource="sqlmap/Buy.xml" />
