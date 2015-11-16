@@ -20,6 +20,7 @@ import com.ajou.ase.common.RequestParameter;
 import com.ajou.ase.common.Utils;
 import com.ajou.ase.raspberrycontrol.Raspberry;
 import com.ajou.ase.raspberrycontrol.RaspberryServiceImpl;
+import com.ajou.ase.user.User;
 
 
 
@@ -50,16 +51,52 @@ public class RaspberryController {
 			
 		//	this.raspberryService.saveObject(rp);
 					
-			map.put("success", "No same Serial Number");
+			map.put("fail", "No same Serial Number");
 		
 		}else{
 			System.out.println("There are already registered in SMART AL");
-			map.put("fail", "Exist same Serial Number");		
+			map.put("success", "Exist same Serial Number");		
 		}
 
 		mnv.addObject("map", map);
 		mnv.addObject("callback", req.getParameter("callback"));
 		
+		return mnv;
+	}
+	
+	@RequestMapping("/raspberrycontrol/raspberry_PreRegistration.do")
+	public ModelAndView userRegistration(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		
+		RequestParameter rp = Utils.extractRequestParameters(req);	
+		ModelAndView mnv = new ModelAndView("/common/json_result");
+		Map<String, Object> map = new HashMap<String, Object>();
+		Raspberry raspberry = new Raspberry();
+		
+		//체커
+		System.out.println("---------------------------/raspberrycontrol/raspberry_PreRegistration.do---------------------------");
+		System.out.println("rp = "+ rp);
+		
+		raspberry.setRaspberryNumSN(rp.get("raspberryNumSN").toString());
+		raspberry.setRaspberryIPAddr(rp.get("raspberryIPAddr").toString());
+		raspberry.setRaspberrySSID(rp.get("raspberrySSID").toString());
+		raspberry.setRaspberryStatus("0");
+		
+		//데이터 주입 확인
+		System.out.println("SerialNumber= "+ raspberry.getRaspberryNumSN());
+		System.out.println("IPAddress= "+ raspberry.getRaspberryIPAddr());
+		System.out.println("SSID= "+ raspberry.getRaspberrySSID());
+		System.out.println("Status= "+ raspberry.getRaspberryStatus());
+						
+		//성공이후 userService의 save를 이용하여 insert SQL명령 실행
+		raspberryService.save(raspberry);
+		
+		//성공여부에 따라 map으로 k와 v값을 각각 주입
+		if(raspberry !=null)	map.put("success", "Success to Registration");
+		else map.put("fail", "Fail to Registration");
+		
+		mnv.addObject("map", map);
+		mnv.addObject("callback", req.getParameter("callback"));
+
 		return mnv;
 	}
 }

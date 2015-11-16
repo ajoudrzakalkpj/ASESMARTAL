@@ -35,6 +35,22 @@
 			RASPBERRY_NUMSN = #raspberryNumSN#
 		
 	</select>
+	
+	<insert id="InsertRaspberryInformation" parameterClass="raspberry">
+		INSERT INTO	TBL_RASPBERRY_INFO
+			(RASPBERRY_NUMSN, 
+			RASPBERRY_IPADDR, 
+			RASPBERRY_SSID, 
+			RASPBERRY_LASTUPDATETIME, 
+			RASPBERRY_STATUS)	
+		VALUES
+			(#raspberryNumSN#, 
+			#raspberryIPAddr#, 
+			#raspberrySSID#, 
+			now(), 
+			#raspberryStatus#)	
+	</insert>
+	
 
 </sqlMap>
 

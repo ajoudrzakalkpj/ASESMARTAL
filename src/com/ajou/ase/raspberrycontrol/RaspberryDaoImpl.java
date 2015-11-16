@@ -45,7 +45,7 @@ public class RaspberryDaoImpl extends BaseDao implements Dao {
 
 	@Override
 	public void insert(Object obj) throws SQLException {
-
+		getSqlMapClientTemplate().insert("com.ajou.ase.raspberrycontrol.InsertRaspberryInformation", obj);
 		
 	}
 
