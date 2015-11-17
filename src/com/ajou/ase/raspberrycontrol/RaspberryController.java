@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ajou.ase.board.Board;
 import com.ajou.ase.common.RequestParameter;
 import com.ajou.ase.common.Utils;
 import com.ajou.ase.raspberrycontrol.Raspberry;
@@ -99,4 +100,66 @@ public class RaspberryController {
 
 		return mnv;
 	}
+	
+	@RequestMapping("/raspberrycontrol/load_ConfirmedList.do")
+	public ModelAndView loadConfirmedList(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		RequestParameter rp = Utils.extractRequestParameters(req);	
+		ModelAndView mnv = new ModelAndView("/common/json_result");
+
+		System.out.println("-------------/raspberrycontrol/load_ConfirmedList.do--------------");
+		System.out.println("rp = "+ rp);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> raspberryMap = new HashMap<String, Object>();
+		
+		ArrayList<Raspberry> raspberryList = (ArrayList<Raspberry>) this.raspberryService.getConfirmedList(rp);
+		
+		System.out.println("Confirmedlist = " + raspberryList);
+		
+		if(raspberryList.size() == 0){					
+			map.put("fail", "There is no confirmation waiting member.");
+		}else{ 
+			map.put("success", raspberryList);
+		}
+		
+		System.out.println("map =" +map);
+		
+		mnv.addObject("map", map);
+		mnv.addObject("callback", req.getParameter("callback"));
+		
+		System.out.println("mnv = "+ mnv);
+		return mnv;
+	}
+	
+	@RequestMapping("/raspberrycontrol/load_UnconfirmedList.do")
+	public ModelAndView loadUnconfirmedList(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		RequestParameter rp = Utils.extractRequestParameters(req);	
+		ModelAndView mnv = new ModelAndView("/common/json_result");
+
+		System.out.println("-------------/raspberrycontrol/load_UnconfirmedList.do--------------");
+		System.out.println("rp = "+ rp);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> raspberryMap = new HashMap<String, Object>();
+		
+		ArrayList<Raspberry> raspberryList = (ArrayList<Raspberry>) this.raspberryService.getUnconfirmedList(rp);
+		
+		System.out.println("Unconfirmedlist = " + raspberryList);
+		
+		if(raspberryList.size() == 0){					
+			map.put("fail", "There is no confirmation waiting node.");
+		}else{ 
+			map.put("success", raspberryList);
+		}
+		
+		System.out.println("map =" +map);
+		
+		mnv.addObject("map", map);
+		mnv.addObject("callback", req.getParameter("callback"));
+		
+		System.out.println("mnv = "+ mnv);
+		return mnv;
+	}
+	
+	
 }

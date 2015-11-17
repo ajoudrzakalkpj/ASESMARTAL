@@ -59,12 +59,16 @@ public class RaspberryServiceImpl implements com.ajou.ase.common.Service {
 		dao.insert(obj);
 		return true;
 	}
-	// 10.9 봉재 : update로직 추가
-	public boolean userinfoupdate(Object obj) throws SQLException {
+
+	public List getConfirmedList(Object obj) throws SQLException {
 		// TODO Auto-generated method stub
-		dao.update(obj);
-		return true;
-	}
+		return dao.getConfirmedListByStatus(obj);
+	}	
+	
+	public List getUnconfirmedList(Object obj) throws SQLException {
+		// TODO Auto-generated method stub
+		return dao.getUnconfirmedListByStatus(obj);
+	}	
 
 	@Override
 	public boolean delete(Object obj) throws SQLException {
@@ -76,11 +80,7 @@ public class RaspberryServiceImpl implements com.ajou.ase.common.Service {
 		dao.updateSSID(obj);
 	}
 	
-	public Object login(Object obj) throws SQLException {
-		
-		return dao.login(obj);
-	}
-	
+
 	
 	public boolean updateConfirmationInfo(Object obj) throws SQLException {
 		// TODO Auto-generated method stub

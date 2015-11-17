@@ -50,7 +50,29 @@
 			now(), 
 			#raspberryStatus#)	
 	</insert>
+
+	<select id = "selectConfirmedList" parameterClass="RequestParameter" resultMap="raspberryResult">
+		SELECT
+			*
+		FROM
+			TBL_RASPBERRY_INFO
+		WHERE
+			RASPBERRY_SERVERADMIN = #sessionServerAdmin# AND RASPBERRY_STATUS = #raspberryStatus#
+		ORDER BY 
+			RASPBERRY_NUMSN
+	</select>	
 	
+	<select id = "selectUnconfirmedList" parameterClass="RequestParameter" resultMap="raspberryResult">
+		SELECT
+			*
+		FROM
+			TBL_RASPBERRY_INFO
+		WHERE
+			RASPBERRY_SSID = #sessionSSID# AND RASPBERRY_STATUS = #raspberryStatus#
+		ORDER BY 
+			RASPBERRY_NUMSN
+	</select>
+
 
 </sqlMap>
 

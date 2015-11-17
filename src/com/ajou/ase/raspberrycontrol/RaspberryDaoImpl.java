@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.ajou.ase.board.Board;
 import com.ajou.ase.common.BaseDao;
 import com.ajou.ase.common.Dao;
 import com.ajou.ase.raspberrycontrol.Raspberry;
@@ -60,15 +61,23 @@ public class RaspberryDaoImpl extends BaseDao implements Dao {
 		// TODO Auto-generated method stub
 
 	}
-	
-	public Object login(Object obj) throws SQLException {
-		return getSqlMapClientTemplate().queryForObject("com.ajou.ase.user.selectUserLogin", obj);
-	}
+
 	
 	public void updateSSID(Object obj) throws SQLException {
 		
 	}
 	
+	public List<Board> getConfirmedListByStatus(Object obj) throws SQLException {
+		// spring 프레임워크의 SqlMapClientTemplate 호출후 MySQL insert 구문 입력을 위해 User.xml의 InsertUserInformation 호출
+		// obj는 user 모델에서 가져옴
+		return (List<Board>)getSqlMapClientTemplate().queryForList("com.ajou.ase.raspberrycontrol.selectConfirmedList", obj);
+	} 
+	
+	public List<Board> getUnconfirmedListByStatus(Object obj) throws SQLException {
+		// spring 프레임워크의 SqlMapClientTemplate 호출후 MySQL insert 구문 입력을 위해 User.xml의 InsertUserInformation 호출
+		// obj는 user 모델에서 가져옴
+		return (List<Board>)getSqlMapClientTemplate().queryForList("com.ajou.ase.raspberrycontrol.selectUnconfirmedList", obj);
+	} 
 	
 
 }
