@@ -21,6 +21,10 @@ public class RaspberryServiceImpl implements com.ajou.ase.common.Service {
 		return this.dao.select(obj);
 	}
 	
+	public Object getObjectbyNumSeq(Object obj) throws SQLException {
+		return this.dao.selectbyNumSeq(obj);
+	}
+	
 	//10.26. 봉재 : ID 중복 확인을 위해 SQL에서 데이터 가져오는 로직
 	public Object getObjectForNumSNcheck(Object obj) throws SQLException {
 		return this.dao.selectForNumSNCheck(obj);
@@ -68,6 +72,11 @@ public class RaspberryServiceImpl implements com.ajou.ase.common.Service {
 	public List getUnconfirmedList(Object obj) throws SQLException {
 		// TODO Auto-generated method stub
 		return dao.getUnconfirmedListByStatus(obj);
+	}
+	
+	public List getUnconfirmedSAList(Object obj) throws SQLException {
+		// TODO Auto-generated method stub
+		return dao.getUnconfirmedListBySerialNumber(obj);
 	}	
 
 	@Override
@@ -80,11 +89,11 @@ public class RaspberryServiceImpl implements com.ajou.ase.common.Service {
 		dao.updateSSID(obj);
 	}
 	
-
-	
-	public boolean updateConfirmationInfo(Object obj) throws SQLException {
-		// TODO Auto-generated method stub
-		dao.updateConfirmationInfo(obj);
+	public boolean confirmRaspberry(Object obj) throws SQLException{
+		dao.confirmRaspberry(obj);
 		return true;
 	}
+
+	
+
 }

@@ -7,6 +7,7 @@
 
 	<typeAlias alias ="RequestParameter" type="com.ajou.ase.common.RequestParameter"/>		
 	<typeAlias alias="raspberry" type="com.ajou.ase.raspberrycontrol.Raspberry"/>
+	<typeAlias alias="raspberrySA" type="com.ajou.ase.raspberrycontrol.RaspberrySA"/>
 	
 	<resultMap class="raspberry" id="raspberryResult">
 		<result property="raspberryNumSeq" column="RASPBERRY_NUMSEQ"/>
@@ -19,6 +20,16 @@
 		<result property="raspberryServerAdmin" column="RASPBERRY_SERVERADMIN"/>
 		
 	</resultMap>
+	<resultMap class="raspberrySA" id="raspberrySAResult">
+		<result property="saNumSeq" column="SA_NUMSEQ"/>
+		<result property="saType" column="SA_TYPE"/>
+		<result property="saRaspberrySN" column="SA_RASPBERRYSN"/>
+		<result property="saUpdateValue" column="SA_UPDATEVALUE"/>
+		<result property="saReserveStatus" column="SA_RESERVESTATUS"/>
+		<result property="saLastupdatetime" column="SA_LASTUPDATETIME"/>
+				
+	</resultMap>
+	
 	
 	<!-- 10.26. 봉재 : userID가 중복성 검사를 위한 result map 생성 -->
 	<resultMap class="raspberry" id="raspberrySNNumResult">
@@ -73,7 +84,37 @@
 			RASPBERRY_NUMSN
 	</select>
 
+	<select id = "selectRaspberryByNumSeq" parameterClass="RequestParameter" resultMap="raspberryResult">
+		SELECT
+			*
+		FROM
+			TBL_RASPBERRY_INFO
+		WHERE
+			RASPBERRY_NUMSEQ = #raspberryNumSeq#
+		
+	</select>	
+	
+	<select id = "selectUnconfirmedListbySerialNumber" parameterClass="RequestParameter" resultMap="raspberrySAResult">
+		SELECT
+			*
+		FROM
+			TBL_SA_INFO
+		WHERE
+			SA_RASPBERRYSN= #raspberryNumSN#
+	</select>	
 
+
+	<update id="confirmRaspberry" parameterClass="RequestParameter">
+		UPDATE TBL_RASPBERRY_INFO
+		SET
+			RASPBERRY_ID = #raspberryID#,
+			RASPBERRY_STATUS = #raspberryStatus#,
+			RASPBERRY_SERVERADMIN = #raspberryServerAdmin# 
+			
+		WHERE 
+			RASPBERRY_NUMSN = #raspberryNumSN#
+					
+	</update>
 </sqlMap>
 
 

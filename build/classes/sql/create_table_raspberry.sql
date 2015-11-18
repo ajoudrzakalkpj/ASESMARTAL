@@ -7,6 +7,6 @@ CREATE TABLE TBL_RASPBERRY_INFO (
 	RASPBERRY_IPADDR VARCHAR(16) NOT NULL comment 'raspberry ipaddress : IP주소',
 	RASPBERRY_SERVERADMIN VARCHAR(20) comment 'raspberry serveradmin : 라즈베리가 속하는 서버 admin 주소',
 	RASPBERRY_LASTUPDATETIME DATETIME NOT NULL comment 'raspberry 최종 업데이트 시간',
-	RASPBERRY_SSID VARCHAR(30) comment '라즈베리의 접속한 SSID ',	
+	RASPBERRY_SSID VARCHAR(30) comment '라즈베리의 접속한 SSID ',
 	PRIMARY KEY (`RASPBERRY_NUMSEQ`)
 );

@@ -9,6 +9,7 @@ import com.ajou.ase.board.Board;
 import com.ajou.ase.common.BaseDao;
 import com.ajou.ase.common.Dao;
 import com.ajou.ase.raspberrycontrol.Raspberry;
+import com.ajou.ase.raspberrycontrol.RaspberrySA;
 
 
 @Repository("raspberrycontrolDao")
@@ -19,6 +20,10 @@ public class RaspberryDaoImpl extends BaseDao implements Dao {
 	@Override
 	public Object select(Object obj) throws SQLException {
 		return getSqlMapClientTemplate().queryForObject("com.ajou.ase.user.selectUserByUserID", obj);
+	}
+	
+	public Object selectbyNumSeq(Object obj) throws SQLException {
+		return getSqlMapClientTemplate().queryForObject("com.ajou.ase.raspberrycontrol.selectRaspberryByNumSeq", obj);
 	}
 	
 	
@@ -57,26 +62,31 @@ public class RaspberryDaoImpl extends BaseDao implements Dao {
 
 	}
 	
-	public void updateConfirmationInfo(Object obj) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	
 	public void updateSSID(Object obj) throws SQLException {
 		
 	}
 	
-	public List<Board> getConfirmedListByStatus(Object obj) throws SQLException {
+	
+	public void confirmRaspberry(Object obj) throws SQLException {
+		getSqlMapClientTemplate().update("com.ajou.ase.raspberrycontrol.confirmRaspberry", obj);
+	}
+	
+	public List<Raspberry> getConfirmedListByStatus(Object obj) throws SQLException {
 		// spring 프레임워크의 SqlMapClientTemplate 호출후 MySQL insert 구문 입력을 위해 User.xml의 InsertUserInformation 호출
 		// obj는 user 모델에서 가져옴
-		return (List<Board>)getSqlMapClientTemplate().queryForList("com.ajou.ase.raspberrycontrol.selectConfirmedList", obj);
+		return (List<Raspberry>)getSqlMapClientTemplate().queryForList("com.ajou.ase.raspberrycontrol.selectConfirmedList", obj);
 	} 
 	
-	public List<Board> getUnconfirmedListByStatus(Object obj) throws SQLException {
+	public List<Raspberry> getUnconfirmedListByStatus(Object obj) throws SQLException {
 		// spring 프레임워크의 SqlMapClientTemplate 호출후 MySQL insert 구문 입력을 위해 User.xml의 InsertUserInformation 호출
 		// obj는 user 모델에서 가져옴
-		return (List<Board>)getSqlMapClientTemplate().queryForList("com.ajou.ase.raspberrycontrol.selectUnconfirmedList", obj);
+		return (List<Raspberry>)getSqlMapClientTemplate().queryForList("com.ajou.ase.raspberrycontrol.selectUnconfirmedList", obj);
+	}
+	
+	public List<RaspberrySA> getUnconfirmedListBySerialNumber(Object obj) throws SQLException {
+		// spring 프레임워크의 SqlMapClientTemplate 호출후 MySQL insert 구문 입력을 위해 User.xml의 InsertUserInformation 호출
+		// obj는 user 모델에서 가져옴
+		return (List<RaspberrySA>)getSqlMapClientTemplate().queryForList("com.ajou.ase.raspberrycontrol.selectUnconfirmedListbySerialNumber", obj);
 	} 
 	
 

@@ -22,6 +22,7 @@ import com.ajou.ase.common.Utils;
 import com.ajou.ase.raspberrycontrol.Raspberry;
 import com.ajou.ase.raspberrycontrol.RaspberryServiceImpl;
 import com.ajou.ase.user.User;
+import com.ajou.ase.raspberrycontrol.RaspberrySA;
 
 
 
@@ -160,6 +161,83 @@ public class RaspberryController {
 		System.out.println("mnv = "+ mnv);
 		return mnv;
 	}
+
+	@RequestMapping("/raspberrycontrol/load_UnconfirmedRaspberry.do")
+	public ModelAndView loadUnconfirmedRaspberry(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		RequestParameter rp = Utils.extractRequestParameters(req);	
+		ModelAndView mnv = new ModelAndView("/common/json_result");
+
+		System.out.println("-------------/raspberrycontrol/load_UnconfirmedRaspberry.do--------------");
+		System.out.println("rp = "+ rp);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+				
+		Raspberry raspberry = (Raspberry) this.raspberryService.getObjectbyNumSeq(rp);
+		
+		System.out.println("UnconfirmedRaspberry = " + raspberry);
+		
+		if(raspberry == null){					
+			map.put("fail", "There is error to get the raspberryPi data.");
+		}else{ 
+			map.put("success", raspberry);
+		}
+		
+		System.out.println("map =" +map);
+		
+		mnv.addObject("map", map);
+		mnv.addObject("callback", req.getParameter("callback"));
+		
+		System.out.println("mnv = "+ mnv);
+		return mnv;
+	}
 	
+	@RequestMapping("/raspberrycontrol/load_UnconfirmedRaspberrySA.do")
+	public ModelAndView loadUnconfirmedRaspberrySA(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		RequestParameter rp = Utils.extractRequestParameters(req);	
+		ModelAndView mnv = new ModelAndView("/common/json_result");
+
+		System.out.println("-------------/raspberrycontrol/load_UnconfirmedRaspberrySA.do--------------");
+		System.out.println("rp = "+ rp);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> raspberryMap = new HashMap<String, Object>();
+		
+		ArrayList<RaspberrySA> raspberrySAList = (ArrayList<RaspberrySA>) this.raspberryService.getUnconfirmedSAList(rp);
+		
+		System.out.println("UnconfirmedSAlist = " + raspberrySAList);
+		
+		if(raspberrySAList.size() == 0){					
+			map.put("fail", "There is no Sensor and Actuator.");
+		}else{ 
+			map.put("success", raspberrySAList);
+		}
+		
+		System.out.println("map =" +map);
+		
+		mnv.addObject("map", map);
+		mnv.addObject("callback", req.getParameter("callback"));
+		
+		System.out.println("mnv = "+ mnv);
+		return mnv;
+	}
+
+	@RequestMapping("/raspberrycontrol/ConfirmeRaspberry.do")
+	public ModelAndView confirmeRaspberry(HttpServletRequest req, HttpServletResponse res) throws Exception {
+
+		//업데이트를 위한 기본 생성자
+		RequestParameter rp = Utils.extractRequestParameters(req);	
+		ModelAndView mnv = new ModelAndView("/common/json_result");
+		Map<String, Object> map = new HashMap<String, Object>();
+				
+		boolean successupdate =  raspberryService.confirmRaspberry(rp);
+	
+		if(successupdate) map.put("success", "complete Raspberry info confirm");
+		else map.put("fail", "fail to confirm Raspberry info");
+		
+		mnv.addObject("map", map);
+		mnv.addObject("callback", req.getParameter("callback"));
+		return mnv;
+	}
+
 	
 }
