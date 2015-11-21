@@ -3,6 +3,7 @@ package com.ajou.ase.raspberrycontrol;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
@@ -162,6 +163,7 @@ public class RaspberryController {
 		return mnv;
 	}
 
+	//참고로 이 로직은 Find Raspberry 누른뒤에도 적용되지만 RaspberryInfo가져오는 로직에도 적용한다. 
 	@RequestMapping("/raspberrycontrol/load_UnconfirmedRaspberry.do")
 	public ModelAndView loadUnconfirmedRaspberry(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		RequestParameter rp = Utils.extractRequestParameters(req);	
@@ -236,6 +238,142 @@ public class RaspberryController {
 		
 		mnv.addObject("map", map);
 		mnv.addObject("callback", req.getParameter("callback"));
+		return mnv;
+	}
+	
+	@RequestMapping("/raspberrycontrol/RemoveRaspberry.do")
+	public ModelAndView removeRaspberry(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		RequestParameter rp = Utils.extractRequestParameters(req);	
+		ModelAndView mnv = new ModelAndView("/common/json_result");
+		
+		System.out.println("-------------/raspberrycontrol/RemoveRaspberry.do--------------"); 
+		System.out.println("rp = "+ rp);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		//여기서는 remopve라고 사용하지만, 실제로 여기서는 권한값을 0으로 주고, server admin 값을 없앤다. 
+		this.raspberryService.removeRaspberryInfo(rp);
+
+	//	rp.put("boardRootUpper", rp.get("boardSeqNum").toString());
+
+		map.put("success", "success");
+		
+		mnv.addObject("map", map);
+		mnv.addObject("callback", req.getParameter("callback"));
+		
+		System.out.println("mnv = "+ mnv);
+		return mnv;
+	}
+	
+	@RequestMapping("/raspberrycontrol/load_AllDisplayList.do")
+	public ModelAndView loadAllDisplayList(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		RequestParameter rp = Utils.extractRequestParameters(req);	
+		ModelAndView mnv = new ModelAndView("/common/json_result");
+		
+
+		System.out.println("-------------/raspberrycontrol/load_AllDisplayList.do--------------");
+		System.out.println("rp = "+ rp);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, String> param = new HashMap<String, String>();
+		Map<String, Object> resultList = new HashMap<String, Object>();
+		
+		// http request에 대한 요청값(server admin 과 status값)을 가지고 라즈베리 정보 가져오기
+		ArrayList<Raspberry> raspberryList = (ArrayList<Raspberry>) this.raspberryService.getConfirmedList(rp);
+		ArrayList<RaspberrySA> raspberrySAList = new ArrayList<RaspberrySA>(); 
+				
+		// 위의 결과 나온 라즈베리파이의 시리얼 정보로 모든 SA 정보 가져오기 
+		// 가져오고 난다음 addAll을 사용하여 모든 데이터를 다 붙여넣었음(이렇게 안하면 이전에 했던것들이 사라짐)
+		for(int i=0; i < raspberryList.size();i++){
+			param.put("raspberryNumSN", raspberryList.get(i).getRaspberryNumSN());
+			raspberrySAList.addAll((ArrayList<RaspberrySA>) this.raspberryService.getSAListBySerialNumber(param));
+		}
+		// 두개의 정보를 조합해야해야하기 때문에 resultList를 먼저 선언하고 resultSet을 매 순환마다 새로 선언하여 주입 
+		for(int i=0; i < raspberrySAList.size();i++){
+			Map<String, String> resultSet = new HashMap<String, String>();
+			resultSet.put("saNumSeq", String.valueOf(raspberrySAList.get(i).getSaNumSeq()));
+			resultSet.put("saType", raspberrySAList.get(i).getSaType());
+			resultSet.put("saRaspberrySN", raspberrySAList.get(i).getSaRaspberrySN());
+			resultSet.put("saUpdateValue", raspberrySAList.get(i).getSaUpdateValue());
+			for(int l=0; l<raspberryList.size();l++){
+				if(raspberryList.get(l).getRaspberryNumSN().equals(raspberrySAList.get(i).getSaRaspberrySN()))
+					resultSet.put("raspberryID", raspberryList.get(l).getRaspberryID());
+			}
+			resultList.put(String.valueOf(i), resultSet);
+		}
+
+		if(resultList.size() == 0){					
+			map.put("fail", "There is no SA.");
+		}else{ 
+			map.put("success", resultList);
+		}
+	
+		System.out.println("map =" +map);
+			
+		mnv.addObject("map", map);
+		mnv.addObject("callback", req.getParameter("callback"));
+				
+		System.out.println("mnv = "+ mnv);
+		return mnv;
+	}
+
+	
+	@RequestMapping("/raspberrycontrol/load_SAvalueinfo.do")
+	public ModelAndView loadSAvalueinfo(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		RequestParameter rp = Utils.extractRequestParameters(req);	
+		ModelAndView mnv = new ModelAndView("/common/json_result");
+		
+
+		System.out.println("-------------/raspberrycontrol/load_SAvalueinfo.do--------------");
+		System.out.println("rp = "+ rp);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, String> param = new HashMap<String, String>();
+		Map<String, Object> resultList = new HashMap<String, Object>();
+		
+		// http request에 대한 요청값(server admin 과 status값)을 가지고 라즈베리 정보 가져오기
+		ArrayList<Raspberry> raspberryList = (ArrayList<Raspberry>) this.raspberryService.getConfirmedList(rp);
+		ArrayList<RaspberrySA> raspberrySAList = new ArrayList<RaspberrySA>(); 
+		
+		String gettingParameter = rp.get("saNumSeq").toString();
+		StringTokenizer st = new StringTokenizer(gettingParameter, ",");
+
+		// 가져온 파라미터를 정수값으로 변경시켜서 하나하나 쿼리를 날려야 함 
+		
+		while(st.hasMoreTokens()){
+			int numSeq = Integer.parseInt(st.nextToken());
+			System.out.println(numSeq);
+			RaspberrySA raspberrysa = new RaspberrySA();
+			raspberrysa.setSaNumSeq(numSeq);
+			raspberrySAList.addAll(raspberryService.getSAListByRelatedSeqNum(raspberrysa));
+			
+		}
+		
+
+		for(int i=0; i < raspberrySAList.size() ; i++){
+			Map<String, String> resultSet = new HashMap<String, String>();
+			for(int l=0; l < raspberryList.size() ; l++){
+				if(raspberryList.get(l).getRaspberryNumSN().equals(raspberrySAList.get(i).getSaRaspberrySN())){
+					resultSet.put("saNumSeq", String.valueOf(raspberrySAList.get(i).getSaNumSeq()));
+					resultSet.put("saUpdateValue", raspberrySAList.get(i).getSaUpdateValue());
+					resultSet.put("saType", raspberrySAList.get(i).getSaType());
+					resultSet.put("raspberryID", raspberryList.get(l).getRaspberryID());
+				}
+			}
+			resultList.put(String.valueOf(i), resultSet);
+		}
+
+		if(resultList.size() == 0){					
+			map.put("fail", "There is no SA.");
+		}else{ 
+			map.put("success", resultList);
+		}
+		
+		System.out.println("map =" +map);
+		
+		mnv.addObject("map", map);
+		mnv.addObject("callback", req.getParameter("callback"));
+		
+		System.out.println("mnv = "+ mnv);
 		return mnv;
 	}
 

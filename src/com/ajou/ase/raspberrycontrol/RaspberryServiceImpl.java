@@ -55,6 +55,11 @@ public class RaspberryServiceImpl implements com.ajou.ase.common.Service {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void removeRaspberryInfo(Object obj) throws SQLException {
+		// TODO Auto-generated method stub
+		dao.updateForRemovingRaspberryInfo(obj);
+	}
 
 	// save 서비스에 insert 추가 
 	@Override
@@ -77,6 +82,16 @@ public class RaspberryServiceImpl implements com.ajou.ase.common.Service {
 	public List getUnconfirmedSAList(Object obj) throws SQLException {
 		// TODO Auto-generated method stub
 		return dao.getUnconfirmedListBySerialNumber(obj);
+	}	
+	
+	public List getSAListBySerialNumber(Object obj) throws SQLException {
+		// TODO Auto-generated method stub
+		return dao.getSAListBySerialNumber(obj);
+	}
+	
+	public List getSAListByRelatedSeqNum(Object obj) throws SQLException {
+		// TODO Auto-generated method stub
+		return dao.getSAListByRelatedSeqNum(obj);
 	}	
 
 	@Override

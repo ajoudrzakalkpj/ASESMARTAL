@@ -115,6 +115,38 @@
 			RASPBERRY_NUMSN = #raspberryNumSN#
 					
 	</update>
+	
+		<update id="updateForRemovingRaspberryInfo" parameterClass="RequestParameter">
+		UPDATE TBL_RASPBERRY_INFO
+		SET
+			RASPBERRY_ID = NULL,
+			RASPBERRY_STATUS = 0,
+			RASPBERRY_SERVERADMIN = NULL 
+			
+		WHERE 
+			RASPBERRY_NUMSN = #raspberryNumSN#
+					
+	</update>
+	
+	<select id = "selectSAListbySerialNumber" parameterClass="java.util.Map" resultMap="raspberrySAResult">
+		SELECT
+			*
+		FROM
+			TBL_SA_INFO
+		WHERE
+			SA_RASPBERRYSN= #raspberryNumSN#
+	</select>	
+	
+	<select id = "selectSAListbyRelatedSeqNum" parameterClass="raspberrySA" resultMap="raspberrySAResult">
+		SELECT
+			*
+		FROM
+			TBL_SA_INFO
+		WHERE
+			SA_NUMSEQ  = #saNumSeq#
+	</select>	
+	
+	
 </sqlMap>
 
 

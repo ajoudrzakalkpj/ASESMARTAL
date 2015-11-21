@@ -5,7 +5,6 @@ public class RaspberrySA {
 	private int saNumSeq;
 	private String saType;
 	private String saRaspberrySN;
-	private String saName;
 	private String saUpdateValue;
 	private String saReserveStatus;
 	private String saLastupdatetime;
@@ -29,12 +28,7 @@ public class RaspberrySA {
 	public void setSaRaspberrySN(String saRaspberrySN) {
 		this.saRaspberrySN = saRaspberrySN;
 	}
-	public String getSaName() {
-		return saName;
-	}
-	public void setSaName(String saName) {
-		this.saName = saName;
-	}
+	
 	public String getSaUpdateValue() {
 		return saUpdateValue;
 	}

@@ -62,6 +62,10 @@ public class RaspberryDaoImpl extends BaseDao implements Dao {
 
 	}
 	
+	public void updateForRemovingRaspberryInfo(Object obj) throws SQLException {
+		getSqlMapClientTemplate().update("com.ajou.ase.raspberrycontrol.updateForRemovingRaspberryInfo", obj);
+	}
+	
 	public void updateSSID(Object obj) throws SQLException {
 		
 	}
@@ -89,5 +93,16 @@ public class RaspberryDaoImpl extends BaseDao implements Dao {
 		return (List<RaspberrySA>)getSqlMapClientTemplate().queryForList("com.ajou.ase.raspberrycontrol.selectUnconfirmedListbySerialNumber", obj);
 	} 
 	
+	public List<RaspberrySA> getSAListBySerialNumber(Object obj) throws SQLException {
+		// spring 프레임워크의 SqlMapClientTemplate 호출후 MySQL insert 구문 입력을 위해 User.xml의 InsertUserInformation 호출
+		// obj는 user 모델에서 가져옴
+		return (List<RaspberrySA>)getSqlMapClientTemplate().queryForList("com.ajou.ase.raspberrycontrol.selectSAListbySerialNumber", obj);
+	}
+	
+	public List<RaspberrySA> getSAListByRelatedSeqNum(Object obj) throws SQLException {
+		// spring 프레임워크의 SqlMapClientTemplate 호출후 MySQL insert 구문 입력을 위해 User.xml의 InsertUserInformation 호출
+		// obj는 user 모델에서 가져옴
+		return (List<RaspberrySA>)getSqlMapClientTemplate().queryForList("com.ajou.ase.raspberrycontrol.selectSAListbyRelatedSeqNum", obj);
+	}	
 
 }
