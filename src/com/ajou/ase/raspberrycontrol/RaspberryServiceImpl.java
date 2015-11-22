@@ -93,6 +93,11 @@ public class RaspberryServiceImpl implements com.ajou.ase.common.Service {
 		// TODO Auto-generated method stub
 		return dao.getSAListByRelatedSeqNum(obj);
 	}	
+	
+	public List getConfirmedListWithSSID(Object obj) throws SQLException {
+		// TODO Auto-generated method stub
+		return dao.getConfirmedListWithSSID(obj);
+	}	
 
 	@Override
 	public boolean delete(Object obj) throws SQLException {

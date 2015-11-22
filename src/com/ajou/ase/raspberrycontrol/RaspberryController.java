@@ -377,5 +377,34 @@ public class RaspberryController {
 		return mnv;
 	}
 
+	@RequestMapping("/raspberrycontrol/load_ConfirmedListWithSSID.do")
+	public ModelAndView loadConfirmedListWithSSID(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		RequestParameter rp = Utils.extractRequestParameters(req);	
+		ModelAndView mnv = new ModelAndView("/common/json_result");
+
+		System.out.println("-------------/raspberrycontrol/load_ConfirmedListWithSSID.do--------------");
+		System.out.println("rp = "+ rp);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> raspberryMap = new HashMap<String, Object>();
+		
+		ArrayList<Raspberry> raspberryList = (ArrayList<Raspberry>) this.raspberryService.getConfirmedListWithSSID(rp);
+		
+		System.out.println("Confirmedlist = " + raspberryList);
+		
+		if(raspberryList.size() == 0){					
+			map.put("fail", "There is no confirmation waiting member.");
+		}else{ 
+			map.put("success", raspberryList);
+		}
+		
+		System.out.println("map =" +map);
+		
+		mnv.addObject("map", map);
+		mnv.addObject("callback", req.getParameter("callback"));
+		
+		System.out.println("mnv = "+ mnv);
+		return mnv;
+	}
 	
 }

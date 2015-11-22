@@ -147,6 +147,17 @@
 	</select>	
 	
 	
+	<select id = "selectSAListbyRelatedSSID" parameterClass="RequestParameter" resultMap="raspberryResult">
+		SELECT
+			*
+		FROM
+			TBL_RASPBERRY_INFO
+		WHERE
+			RASPBERRY_SERVERADMIN = #sessionServerAdmin# AND RASPBERRY_STATUS = #raspberryStatus# AND RASPBERRY_SSID = #sessionSSID# 
+		ORDER BY 
+			RASPBERRY_NUMSN
+	</select>	
+	
 </sqlMap>
 
 

@@ -104,5 +104,11 @@ public class RaspberryDaoImpl extends BaseDao implements Dao {
 		// obj는 user 모델에서 가져옴
 		return (List<RaspberrySA>)getSqlMapClientTemplate().queryForList("com.ajou.ase.raspberrycontrol.selectSAListbyRelatedSeqNum", obj);
 	}	
+	
+	public List<RaspberrySA> getConfirmedListWithSSID(Object obj) throws SQLException {
+		// spring 프레임워크의 SqlMapClientTemplate 호출후 MySQL insert 구문 입력을 위해 User.xml의 InsertUserInformation 호출
+		// obj는 user 모델에서 가져옴
+		return (List<RaspberrySA>)getSqlMapClientTemplate().queryForList("com.ajou.ase.raspberrycontrol.selectSAListbyRelatedSSID", obj);
+	}	
 
 }
