@@ -8,6 +8,7 @@
 	<typeAlias alias ="RequestParameter" type="com.ajou.ase.common.RequestParameter"/>		
 	<typeAlias alias="raspberry" type="com.ajou.ase.raspberrycontrol.Raspberry"/>
 	<typeAlias alias="raspberrySA" type="com.ajou.ase.raspberrycontrol.RaspberrySA"/>
+	<typeAlias alias="raspberrySALog" type="com.ajou.ase.raspberrycontrol.RaspberrySALog"/>
 	
 	<resultMap class="raspberry" id="raspberryResult">
 		<result property="raspberryNumSeq" column="RASPBERRY_NUMSEQ"/>
@@ -26,8 +27,15 @@
 		<result property="saRaspberrySN" column="SA_RASPBERRYSN"/>
 		<result property="saUpdateValue" column="SA_UPDATEVALUE"/>
 		<result property="saReserveStatus" column="SA_RESERVESTATUS"/>
-		<result property="saLastupdatetime" column="SA_LASTUPDATETIME"/>
-				
+		<result property="saLastupdatetime" column="SA_LASTUPDATETIME"/>		
+	</resultMap>
+	
+	<resultMap class="raspberrySALog" id="raspberrySALogResult">
+		<result property="salogNumSeq" column="SALOG_NUMSEQ"/>
+		<result property="salogSAType" column="SALOG_SATYPE"/>
+		<result property="salogRaspberrySN" column="SALOG_RASPBERRYSN"/>
+		<result property="salogUpdateValue" column="SALOG_UPDATEVALUE"/>
+		<result property="salogLastupdatetime" column="SALOG_LASTUPDATETIME"/>		
 	</resultMap>
 	
 	
@@ -60,6 +68,17 @@
 			#raspberrySSID#, 
 			now(), 
 			#raspberryStatus#)	
+	</insert>
+	
+	<insert id="InsertSAInformation" parameterClass="RequestParameter">
+		INSERT INTO	TBL_SA_INFO
+			(SA_TYPE, 
+			SA_RASPBERRYSN, 
+			SA_LASTUPDATETIME)	
+		VALUES
+			(#saType#, 
+			#saRaspberrySN#, 
+			now())	
 	</insert>
 
 	<select id = "selectConfirmedList" parameterClass="RequestParameter" resultMap="raspberryResult">
@@ -116,7 +135,7 @@
 					
 	</update>
 	
-		<update id="updateForRemovingRaspberryInfo" parameterClass="RequestParameter">
+	<update id="updateForRemovingRaspberryInfo" parameterClass="RequestParameter">
 		UPDATE TBL_RASPBERRY_INFO
 		SET
 			RASPBERRY_ID = NULL,
@@ -125,6 +144,17 @@
 			
 		WHERE 
 			RASPBERRY_NUMSN = #raspberryNumSN#
+					
+	</update>
+	
+	<update id="updateSAValue" parameterClass="RequestParameter">
+		UPDATE TBL_SA_INFO
+		SET
+			SA_UPDATEVALUE = #saValue#,
+			SA_LASTUPDATETIME = now()
+			
+		WHERE 
+			SA_TYPE = #saType# AND SA_RASPBERRYSN = #saRaspberrySN#
 					
 	</update>
 	
@@ -157,6 +187,41 @@
 		ORDER BY 
 			RASPBERRY_NUMSN
 	</select>	
+	
+	<select id = "selectCheckSNBystatus" parameterClass="RequestParameter" resultMap="raspberryResult">
+		SELECT
+			*
+		FROM
+			TBL_RASPBERRY_INFO
+		WHERE
+			RASPBERRY_NUMSEQ = #raspberryNumSeq# AND RASPBERRY_STATUS = #raspberryStatus# 
+		
+	</select>	
+	
+	<insert id="InsertSALogInfo" parameterClass="RequestParameter">
+		INSERT INTO	TBL_SALOG_INFO
+			(SALOG_SATYPE, 
+			SALOG_RASPBERRYSN, 
+			SALOG_UPDATEVALUE,
+			SALOG_LASTUPDATETIME)	
+		VALUES
+			(#saType#, 
+			#saRaspberrySN#,
+			#saValue#, 
+			now())	
+	</insert>
+	
+	<select id = "selectRelatedSALogData" parameterClass="RequestParameter" resultMap="raspberrySALogResult">
+		SELECT
+			*
+		FROM
+			TBL_SALOG_INFO
+		WHERE
+			SALOG_RASPBERRYSN = #salogRaspberrySN# AND SALOG_SATYPE = #salogSAType# AND date(SALOG_LASTUPDATETIME) = #salogLastupdatetime#
+		ORDER BY 
+			SALOG_NUMSEQ
+	</select>	
+	
 	
 </sqlMap>
 

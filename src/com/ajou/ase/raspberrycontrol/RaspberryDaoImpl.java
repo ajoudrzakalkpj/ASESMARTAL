@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.ajou.ase.board.Board;
 import com.ajou.ase.common.BaseDao;
 import com.ajou.ase.common.Dao;
 import com.ajou.ase.raspberrycontrol.Raspberry;
 import com.ajou.ase.raspberrycontrol.RaspberrySA;
+import com.ajou.ase.raspberrycontrol.RaspberrySALog;
 
 
 @Repository("raspberrycontrolDao")
@@ -30,6 +30,10 @@ public class RaspberryDaoImpl extends BaseDao implements Dao {
 	// 
 	public Object selectForNumSNCheck(Object obj) throws SQLException {
 		return  getSqlMapClientTemplate().queryForObject("com.ajou.ase.raspberrycontrol.selectCheckSNBySN", obj);
+	}
+	
+	public Object selectForConfirmation(Object obj) throws SQLException {
+		return  getSqlMapClientTemplate().queryForObject("com.ajou.ase.raspberrycontrol.selectCheckSNBystatus", obj);
 	}
 
 	@Override
@@ -52,7 +56,14 @@ public class RaspberryDaoImpl extends BaseDao implements Dao {
 	@Override
 	public void insert(Object obj) throws SQLException {
 		getSqlMapClientTemplate().insert("com.ajou.ase.raspberrycontrol.InsertRaspberryInformation", obj);
-		
+	}
+	
+	public void insertSAInfo(Object obj) throws SQLException {
+		getSqlMapClientTemplate().insert("com.ajou.ase.raspberrycontrol.InsertSAInformation", obj);
+	}
+	
+	public void insertSALogInfo(Object obj) throws SQLException {
+		getSqlMapClientTemplate().insert("com.ajou.ase.raspberrycontrol.InsertSALogInfo", obj);
 	}
 
 	// 10.9 봉재 : 업데이트 로직 추가
@@ -69,7 +80,9 @@ public class RaspberryDaoImpl extends BaseDao implements Dao {
 	public void updateSSID(Object obj) throws SQLException {
 		
 	}
-	
+	public void updateSAvalue(Object obj) throws SQLException {
+		getSqlMapClientTemplate().update("com.ajou.ase.raspberrycontrol.updateSAValue", obj);
+	}
 	
 	public void confirmRaspberry(Object obj) throws SQLException {
 		getSqlMapClientTemplate().update("com.ajou.ase.raspberrycontrol.confirmRaspberry", obj);
@@ -109,6 +122,12 @@ public class RaspberryDaoImpl extends BaseDao implements Dao {
 		// spring 프레임워크의 SqlMapClientTemplate 호출후 MySQL insert 구문 입력을 위해 User.xml의 InsertUserInformation 호출
 		// obj는 user 모델에서 가져옴
 		return (List<RaspberrySA>)getSqlMapClientTemplate().queryForList("com.ajou.ase.raspberrycontrol.selectSAListbyRelatedSSID", obj);
+	}	
+	
+	public List<RaspberrySA> selectRelatedSALogData(Object obj) throws SQLException {
+		// spring 프레임워크의 SqlMapClientTemplate 호출후 MySQL insert 구문 입력을 위해 User.xml의 InsertUserInformation 호출
+		// obj는 user 모델에서 가져옴
+		return (List<RaspberrySA>)getSqlMapClientTemplate().queryForList("com.ajou.ase.raspberrycontrol.selectRelatedSALogData", obj);
 	}	
 
 }

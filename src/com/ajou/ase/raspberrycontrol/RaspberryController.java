@@ -17,13 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ajou.ase.board.Board;
 import com.ajou.ase.common.RequestParameter;
 import com.ajou.ase.common.Utils;
 import com.ajou.ase.raspberrycontrol.Raspberry;
 import com.ajou.ase.raspberrycontrol.RaspberryServiceImpl;
-import com.ajou.ase.user.User;
 import com.ajou.ase.raspberrycontrol.RaspberrySA;
+import com.ajou.ase.raspberrycontrol.RaspberrySALog;
 
 
 
@@ -321,7 +320,6 @@ public class RaspberryController {
 	public ModelAndView loadSAvalueinfo(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		RequestParameter rp = Utils.extractRequestParameters(req);	
 		ModelAndView mnv = new ModelAndView("/common/json_result");
-		
 
 		System.out.println("-------------/raspberrycontrol/load_SAvalueinfo.do--------------");
 		System.out.println("rp = "+ rp);
@@ -330,14 +328,11 @@ public class RaspberryController {
 		Map<String, String> param = new HashMap<String, String>();
 		Map<String, Object> resultList = new HashMap<String, Object>();
 		
-		// http request에 대한 요청값(server admin 과 status값)을 가지고 라즈베리 정보 가져오기
 		ArrayList<Raspberry> raspberryList = (ArrayList<Raspberry>) this.raspberryService.getConfirmedList(rp);
 		ArrayList<RaspberrySA> raspberrySAList = new ArrayList<RaspberrySA>(); 
 		
 		String gettingParameter = rp.get("saNumSeq").toString();
 		StringTokenizer st = new StringTokenizer(gettingParameter, ",");
-
-		// 가져온 파라미터를 정수값으로 변경시켜서 하나하나 쿼리를 날려야 함 
 		
 		while(st.hasMoreTokens()){
 			int numSeq = Integer.parseInt(st.nextToken());
@@ -345,9 +340,7 @@ public class RaspberryController {
 			RaspberrySA raspberrysa = new RaspberrySA();
 			raspberrysa.setSaNumSeq(numSeq);
 			raspberrySAList.addAll(raspberryService.getSAListByRelatedSeqNum(raspberrysa));
-			
 		}
-		
 
 		for(int i=0; i < raspberrySAList.size() ; i++){
 			Map<String, String> resultSet = new HashMap<String, String>();
@@ -367,12 +360,9 @@ public class RaspberryController {
 		}else{ 
 			map.put("success", resultList);
 		}
-		
 		System.out.println("map =" +map);
-		
 		mnv.addObject("map", map);
 		mnv.addObject("callback", req.getParameter("callback"));
-		
 		System.out.println("mnv = "+ mnv);
 		return mnv;
 	}
@@ -406,5 +396,123 @@ public class RaspberryController {
 		System.out.println("mnv = "+ mnv);
 		return mnv;
 	}
+	
+	@RequestMapping("/raspberrycontrol/raspberry_ConfirmationCheck.do")
+	public ModelAndView raspberryConfirmationCheck(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		
+		RequestParameter rp = Utils.extractRequestParameters(req);	
+		ModelAndView mnv = new ModelAndView("/common/json_result");
+		Map<String, Object> map = new HashMap<String, Object>();
+							
+		System.out.println("---------------------------/raspberrycontrol/raspberry_ConfirmationCheck.do---------------------------");
+		System.out.println("rp = " + rp);
+		
+		//클라이언트로부터 파라미터 받은 ID를 저장 및 확인
+		String currentNumSN = rp.get("raspberryNumSN").toString();
+		System.out.println("Receive Number of Serial Number = "+ currentNumSN);
+		
+		//클라이언트로 파라미터를 받은 것을 바탕으로 query 날려서 null 인지 아니면 값이 있는지를 확인
+		if(this.raspberryService.getObjectForNumSNcheck(rp) == null)
+		{
+			System.out.println("No Confirmation from Server admin");
+			
+		//	this.raspberryService.saveObject(rp);
+					
+			map.put("fail", "Yet confirmation");
+		
+		}else{
+			System.out.println("confirmed by Server admin");
+			map.put("Success", "Confirmation");		
+		}
+
+		mnv.addObject("map", map);
+		mnv.addObject("callback", req.getParameter("callback"));
+		
+		return mnv;
+	}
+	
+	@RequestMapping("/raspberrycontrol/raspberry_RegisterSA.do")
+	public ModelAndView registerSA(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		
+		RequestParameter rp = Utils.extractRequestParameters(req);	
+		ModelAndView mnv = new ModelAndView("/common/json_result");
+		Map<String, Object> map = new HashMap<String, Object>();
+		Raspberry raspberry = new Raspberry();
+		
+		//체커
+		System.out.println("---------------------------/raspberrycontrol/raspberry_RegisterSA.do---------------------------");
+		System.out.println("rp = "+ rp);
+		
+						
+		//성공이후 userService의 save를 이용하여 insert SQL명령 실행
+		raspberryService.saveSAInfo(rp);
+		
+		//성공여부에 따라 map으로 k와 v값을 각각 주입
+		if(raspberry !=null)	map.put("success", "Success to SA Registration");
+		else map.put("fail", "Fail to Registration");
+		
+		mnv.addObject("map", map);
+		mnv.addObject("callback", req.getParameter("callback"));
+
+		return mnv;
+	}
+	
+	
+	@RequestMapping("/raspberrycontrol/raspberry_SAvalueUpdate.do")
+	public ModelAndView SAvalueUpdate(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		
+		RequestParameter rp = Utils.extractRequestParameters(req);	
+		ModelAndView mnv = new ModelAndView("/common/json_result");
+		Map<String, Object> map = new HashMap<String, Object>();
+			
+		//체커
+		System.out.println("---------------------------/raspberrycontrol/raspberry_SAvalueUpdate.do---------------------------");
+		System.out.println("rp = "+ rp);
+								
+		//성공이후 userService의 save를 이용하여 insert SQL명령 실행
+		raspberryService.updateSAvalue(rp);
+		boolean resultOfUpdate = raspberryService.saveToSALogInfo(rp);
+		
+		//성공여부에 따라 map으로 k와 v값을 각각 주입
+		if(resultOfUpdate == true)	map.put("success", "Success to update value");
+		else map.put("fail", "Fail to update value");
+		
+		mnv.addObject("map", map);
+		mnv.addObject("callback", req.getParameter("callback"));
+
+		return mnv;
+	}
+	
+	
+	@RequestMapping("/raspberrycontrol/load_BinaryLogList.do")
+	public ModelAndView loadBinaryLogList(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		RequestParameter rp = Utils.extractRequestParameters(req);	
+		ModelAndView mnv = new ModelAndView("/common/json_result");
+
+		System.out.println("-------------/raspberrycontrol/load_BinaryLogList.do--------------");
+		System.out.println("rp = "+ rp);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> raspberryMap = new HashMap<String, Object>();
+		
+		ArrayList<RaspberrySALog> raspberrySALogList = (ArrayList<RaspberrySALog>) this.raspberryService.getRelatedSALogData(rp);
+		
+		System.out.println("RelatedLoglist = " + raspberrySALogList);
+		
+		if(raspberrySALogList.size() == 0){					
+			map.put("fail", "There is no Log Data in Database.");
+		}else{ 
+			map.put("success", raspberrySALogList);
+		}
+		
+		System.out.println("map =" +map);
+		
+		mnv.addObject("map", map);
+		mnv.addObject("callback", req.getParameter("callback"));
+		
+		System.out.println("mnv = "+ mnv);
+		return mnv;
+	}
+
 	
 }

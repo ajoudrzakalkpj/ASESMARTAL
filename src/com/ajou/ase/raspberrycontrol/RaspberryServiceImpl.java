@@ -30,7 +30,10 @@ public class RaspberryServiceImpl implements com.ajou.ase.common.Service {
 		return this.dao.selectForNumSNCheck(obj);
 	}
 	
-	
+	public Object getObjectForConfirmation(Object obj) throws SQLException {
+		return this.dao.selectForConfirmation(obj);
+	}
+		
 	@Override
 	public boolean edit(Object obj) throws SQLException {
 		return true;
@@ -66,6 +69,12 @@ public class RaspberryServiceImpl implements com.ajou.ase.common.Service {
 	public boolean save(Object obj) throws SQLException {
 		// TODO Auto-generated method stub
 		dao.insert(obj);
+		return true;
+	}
+	
+	public boolean saveSAInfo(Object obj) throws SQLException {
+		// TODO Auto-generated method stub
+		dao.insertSAInfo(obj);
 		return true;
 	}
 
@@ -114,6 +123,19 @@ public class RaspberryServiceImpl implements com.ajou.ase.common.Service {
 		return true;
 	}
 
+	public void updateSAvalue(Object obj) throws SQLException{
+		dao.updateSAvalue(obj);
+	}
 	
+	public boolean saveToSALogInfo(Object obj) throws SQLException {
+		// TODO Auto-generated method stub
+		dao.insertSALogInfo(obj);
+		return true;
+	}
+	
+	public List getRelatedSALogData(Object obj) throws SQLException {
+		// TODO Auto-generated method stub
+		return dao.selectRelatedSALogData(obj);
+	}	
 
 }
