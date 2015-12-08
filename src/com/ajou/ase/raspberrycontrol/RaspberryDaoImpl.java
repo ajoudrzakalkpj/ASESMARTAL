@@ -32,6 +32,10 @@ public class RaspberryDaoImpl extends BaseDao implements Dao {
 		return  getSqlMapClientTemplate().queryForObject("com.ajou.ase.raspberrycontrol.selectCheckSNBySN", obj);
 	}
 	
+	public Object selectForNumSNCheckWithStatus(Object obj) throws SQLException {
+		return  getSqlMapClientTemplate().queryForObject("com.ajou.ase.raspberrycontrol.selectCheckSNBySNWithStatus", obj);
+	}
+	
 	public Object selectForConfirmation(Object obj) throws SQLException {
 		return  getSqlMapClientTemplate().queryForObject("com.ajou.ase.raspberrycontrol.selectCheckSNBystatus", obj);
 	}

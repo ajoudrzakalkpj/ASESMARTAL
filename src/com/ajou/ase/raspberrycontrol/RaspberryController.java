@@ -412,7 +412,7 @@ public class RaspberryController {
 		System.out.println("Receive Number of Serial Number = "+ currentNumSN);
 		
 		//클라이언트로 파라미터를 받은 것을 바탕으로 query 날려서 null 인지 아니면 값이 있는지를 확인
-		if(this.raspberryService.getObjectForNumSNcheck(rp) == null)
+		if(this.raspberryService.getObjectForNumSNcheckWithStatus(rp) == null)
 		{
 			System.out.println("No Confirmation from Server admin");
 			

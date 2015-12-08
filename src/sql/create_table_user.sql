@@ -3,7 +3,7 @@ DROP TABLE TBL_USER_INFO;
 CREATE TABLE TBL_USER_INFO (
 	USER_NUMSEQ INT(20) UNSIGNED NOT NULL AUTO_INCREMENT comment 'sequence number: primary key',
 	USER_ID VARCHAR(20) NOT NULL comment 'user id: 사용자 아이디',
-	USER_PASSWORD VARCHAR(30) NOT NULL comment 'user password: 사용자 비밀번호',
+	USER_PASSWORD VARCHAR(512) NOT NULL comment 'user password: 사용자 비밀번호',
 	USER_NAME VARCHAR(14) NOT NULL comment 'user name: 사용자 이름',
 	USER_PHONENUMBER VARCHAR(11) NOT NULL comment 'phonenumber: 사용자 휴대전화번호',
 	USER_PRIVILEGE INT(1) NOT NULL comment '사용자 권한 확인 1: 일반 사용자 2: 서버 관리자',

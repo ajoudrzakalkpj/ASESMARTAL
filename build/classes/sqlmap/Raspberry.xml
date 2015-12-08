@@ -55,6 +55,17 @@
 		
 	</select>
 	
+	
+	<select id="selectCheckSNBySNWithStatus" parameterClass="RequestParameter" resultMap="raspberrySNNumResult">
+		SELECT
+			RASPBERRY_NUMSN
+		FROM
+			TBL_RASPBERRY_INFO
+		WHERE
+			RASPBERRY_NUMSN = #raspberryNumSN# AND RASPBERRY_STATUS = #raspberryStatus#
+		
+	</select>
+	
 	<insert id="InsertRaspberryInformation" parameterClass="raspberry">
 		INSERT INTO	TBL_RASPBERRY_INFO
 			(RASPBERRY_NUMSN, 

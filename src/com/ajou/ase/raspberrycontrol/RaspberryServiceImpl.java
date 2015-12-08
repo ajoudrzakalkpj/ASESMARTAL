@@ -30,6 +30,10 @@ public class RaspberryServiceImpl implements com.ajou.ase.common.Service {
 		return this.dao.selectForNumSNCheck(obj);
 	}
 	
+	public Object getObjectForNumSNcheckWithStatus(Object obj) throws SQLException {
+		return this.dao.selectForNumSNCheckWithStatus(obj);
+	}
+	
 	public Object getObjectForConfirmation(Object obj) throws SQLException {
 		return this.dao.selectForConfirmation(obj);
 	}
